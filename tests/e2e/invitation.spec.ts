@@ -5,6 +5,7 @@ test("mobile flow from intro to info section", async ({ page }) => {
 
   await page.getByTestId("open-envelope").click();
   await expect(page.getByTestId("hero-content")).toBeVisible();
+  await expect(page.getByTestId("intro-envelope")).toHaveCount(0);
 
   await page.getByRole("button", { name: "Սահել ներքև" }).click();
   await expect(page.locator("#story")).toBeVisible();
@@ -23,6 +24,7 @@ test("desktop intro and hero parity", async ({ page }) => {
   await page.getByTestId("open-envelope").click();
 
   await expect(page.getByTestId("hero-content")).toBeVisible();
+  await expect(page.getByTestId("intro-envelope")).toHaveCount(0);
   await expect(page.getByTestId("top-controls")).toBeVisible();
 });
 

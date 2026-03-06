@@ -26,6 +26,7 @@ const App = () => {
   const audio = useAudioController(validatedConfig.musicFile);
 
   const [introComplete, setIntroComplete] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
   const [heroIsVisible, setHeroIsVisible] = useState(true);
 
   useEffect(() => {
@@ -65,7 +66,11 @@ const App = () => {
   };
 
   return (
-    <div className="app-shell" data-intro-complete={introComplete ? "true" : "false"}>
+    <div
+      className="app-shell"
+      data-intro-complete={introComplete ? "true" : "false"}
+      data-hero-ready={heroReady ? "true" : "false"}
+    >
       <TopControls
         showAudioControl={showAudioControl}
         isPlaying={audio.isPlaying}
@@ -76,12 +81,14 @@ const App = () => {
         ctaLabel={validatedConfig.ctaLabel}
       />
 
-      {!introComplete ? <IntroEnvelope onOpened={handleIntroOpened} /> : null}
+      {!introComplete ? (
+        <IntroEnvelope onRevealReady={() => setHeroReady(true)} onOpened={handleIntroOpened} />
+      ) : null}
 
       <HeroSection
         sectionRef={heroRef}
         countdown={countdown}
-        introComplete={introComplete}
+        heroReady={heroReady}
         onScrollDown={() => scrollToSection("story")}
       />
       <StorySection />

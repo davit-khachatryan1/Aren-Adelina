@@ -4,15 +4,23 @@ import { siteConfig } from "../config/siteConfig";
 
 interface IntroEnvelopeProps {
   onOpened: () => void;
+  onRevealReady?: () => void;
 }
 
-export const IntroEnvelope = ({ onOpened }: IntroEnvelopeProps) => {
+export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
-  const topRef = useRef<HTMLDivElement>(null);
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const leftRef = useRef<HTMLDivElement>(null);
-  const rightRef = useRef<HTMLDivElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const topPartRef = useRef<HTMLDivElement>(null);
+  const bottomPartRef = useRef<HTMLDivElement>(null);
+  const leftPartRef = useRef<HTMLDivElement>(null);
+  const rightPartRef = useRef<HTMLDivElement>(null);
+  const topTextRef = useRef<HTMLParagraphElement>(null);
+  const bottomTextRef = useRef<HTMLParagraphElement>(null);
+  const sealCalloutRef = useRef<HTMLDivElement>(null);
   const sealRef = useRef<HTMLButtonElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const pulseRef = useRef<gsap.core.Timeline | null>(null);
+  const revealTriggeredRef = useRef(false);
   const [isOpened, setIsOpened] = useState(false);
 
   const prefersReducedMotion = useMemo(
@@ -40,9 +48,15 @@ export const IntroEnvelope = ({ onOpened }: IntroEnvelopeProps) => {
         duration: 1.25,
         ease: "sine.inOut"
       });
+    pulseRef.current = pulse;
 
     return () => {
       pulse.kill();
+      pulseRef.current = null;
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
     };
   }, []);
 
@@ -52,11 +66,48 @@ export const IntroEnvelope = ({ onOpened }: IntroEnvelopeProps) => {
     }
 
     setIsOpened(true);
+    revealTriggeredRef.current = false;
+    pulseRef.current?.kill();
+    pulseRef.current = null;
 
-    if (prefersReducedMotion || isTestMode) {
+    const triggerRevealReady = () => {
+      if (revealTriggeredRef.current) {
+        return;
+      }
+      revealTriggeredRef.current = true;
+      onRevealReady?.();
+    };
+
+    if (prefersReducedMotion) {
+      triggerRevealReady();
       onOpened();
       return;
     }
+
+    const topDepthDuration = isTestMode ? 0 : 0.22;
+    const topOpenDuration = isTestMode ? 0 : 0.98;
+    const bottomDuration = isTestMode ? 0 : 1.38;
+    const sideFadeDuration = isTestMode ? 0 : 1.32;
+    const photoRevealDuration = isTestMode ? 0 : 0.98;
+    const introFadeDuration = isTestMode ? 0 : 0.88;
+
+    gsap.set([leftPartRef.current, rightPartRef.current], {
+      xPercent: 0,
+      rotateY: 0,
+      opacity: 1
+    });
+    gsap.set(topPartRef.current, {
+      rotateX: 0,
+      yPercent: 0,
+      z: 0,
+      transformOrigin: "50% 100%"
+    });
+    gsap.set(bottomPartRef.current, {
+      rotateX: 0,
+      yPercent: 0,
+      z: 0,
+      transformOrigin: "50% 0%"
+    });
 
     const timeline = gsap.timeline({
       defaults: {
@@ -64,6 +115,11 @@ export const IntroEnvelope = ({ onOpened }: IntroEnvelopeProps) => {
       },
       onComplete: onOpened
     });
+    timelineRef.current = timeline;
+
+    const fadeTargets = [topTextRef.current, sealCalloutRef.current, bottomTextRef.current].filter(
+      Boolean
+    );
 
     timeline
       .to(sealRef.current, {
@@ -79,70 +135,99 @@ export const IntroEnvelope = ({ onOpened }: IntroEnvelopeProps) => {
         duration: 0.12
       })
       .to(
-        ".intro-copy",
+        sealRef.current,
+        {
+          autoAlpha: 0,
+          duration: isTestMode ? 0 : 0.22,
+          ease: "power1.out"
+        },
+        "-=0.02"
+      )
+      .to(
+        fadeTargets,
         {
           opacity: 0,
-          duration: 0.45
+          filter: "blur(8px)",
+          duration: 0.35,
+          stagger: 0.05
         },
-        "-=0.2"
+        "-=0.03"
       )
       .to(
-        topRef.current,
+        topPartRef.current,
         {
-          rotateX: -87,
-          yPercent: -58,
-          transformOrigin: "50% 0%",
-          duration: 1.05
-        },
-        "open"
-      )
-      .to(
-        bottomRef.current,
-        {
-          rotateX: 88,
-          yPercent: 58,
+          z: 34,
+          rotateX: -12,
+          yPercent: -6,
           transformOrigin: "50% 100%",
-          duration: 1.05
+          duration: topDepthDuration,
+          ease: "power2.out"
         },
         "open"
       )
       .to(
-        leftRef.current,
+        topPartRef.current,
         {
-          xPercent: -86,
-          rotateY: -72,
-          transformOrigin: "0% 50%",
-          duration: 1.05
+          z: 0,
+          rotateX: -104,
+          yPercent: -92,
+          transformOrigin: "50% 100%",
+          duration: topOpenDuration,
+          ease: "power3.inOut"
         },
-        "open"
+        "open+=0.2"
       )
       .to(
-        rightRef.current,
+        bottomPartRef.current,
         {
-          xPercent: 86,
-          rotateY: 72,
-          transformOrigin: "100% 50%",
-          duration: 1.05
+          yPercent: 100,
+          transformOrigin: "50% 0%",
+          duration: bottomDuration,
+          ease: "power2.out"
         },
-        "open"
+        "open+=0.16"
       )
       .to(
-        ".intro-photo",
+        leftPartRef.current,
         {
-          opacity: 0.68,
-          duration: 0.9
+          opacity: 0,
+          duration: sideFadeDuration,
+          ease: "power1.out"
         },
-        "open+=0.25"
+        "open+=0.22"
       )
+      .to(
+        rightPartRef.current,
+        {
+          opacity: 0,
+          duration: sideFadeDuration,
+          ease: "power1.out"
+        },
+        "open+=0.22"
+      )
+      .to(
+        photoRef.current,
+        {
+          opacity: 0.75,
+          duration: photoRevealDuration
+        },
+        "open+=0.42"
+      )
+      .call(triggerRevealReady, undefined, "open+=0.62")
       .to(
         rootRef.current,
         {
           opacity: 0,
-          duration: 0.8,
-          delay: 0.1
+          duration: introFadeDuration,
+          delay: 0.18,
+          ease: "power2.out"
         },
-        "-=0.2"
+        "open+=1.72"
       );
+
+    if (isTestMode) {
+      timeline.progress(1);
+    }
   };
 
   return (
@@ -152,29 +237,86 @@ export const IntroEnvelope = ({ onOpened }: IntroEnvelopeProps) => {
       data-testid="intro-envelope"
       aria-hidden={isOpened}
     >
-      <div className="intro-photo" style={{ backgroundImage: `url(${siteConfig.heroImage})` }} />
+      <div
+        ref={photoRef}
+        className="intro-photo"
+        style={{ backgroundImage: `url(${siteConfig.heroImage})` }}
+      />
 
-      <div className="intro-copy intro-top-copy">{siteConfig.intro.title}</div>
-      <div className="intro-copy intro-middle-copy">{siteConfig.intro.tapHint}</div>
-      <div className="intro-copy intro-arrow-copy">↘</div>
-      <div className="intro-copy intro-footer-copy">{siteConfig.intro.footer}</div>
+      <p ref={bottomTextRef} className="envelope-bottom-text">
+        {siteConfig.intro.footer}
+      </p>
 
-      <div className="envelope" aria-hidden>
-        <div ref={topRef} className="envelope-panel panel-top" />
-        <div ref={leftRef} className="envelope-panel panel-left" />
-        <div ref={rightRef} className="envelope-panel panel-right" />
-        <div ref={bottomRef} className="envelope-panel panel-bottom" />
+      <div className="envelope">
+        <div ref={leftPartRef} className="envelope-side-part envelope-left-part">
+          <div className="envelope-shape-shadow-wrapper">
+            <div className="envelope-shape-wrapper-side">
+              <div className="envelope-shape-overlay" />
+            </div>
+          </div>
+        </div>
+
+        <div ref={rightPartRef} className="envelope-side-part envelope-right-part">
+          <div className="envelope-shape-shadow-wrapper">
+            <div className="envelope-shape-wrapper-side">
+              <div className="envelope-shape-overlay" />
+            </div>
+          </div>
+        </div>
+
+        <div ref={bottomPartRef} className="envelope-bottom-part">
+          <div className="envelope-shape-shadow-wrapper">
+            <div className="envelope-shape-wrapper-bottom">
+              <img
+                alt=""
+                aria-hidden
+                className="texture-image"
+                src="/assets/images/paper_texture.jpg"
+              />
+              <div className="envelope-shape-overlay" />
+            </div>
+          </div>
+        </div>
+
+        <div ref={topPartRef} className="envelope-top-part">
+          <div className="envelope-shape-shadow-wrapper">
+            <div className="envelope-shape-wrapper-top">
+              <img
+                alt="Wedding couple"
+                className="texture-image"
+                src="/assets/images/paper_texture.jpg"
+              />
+              <div className="envelope-shape-overlay" />
+            </div>
+          </div>
+          <p ref={topTextRef} className="envelope-top-text">
+            {siteConfig.intro.title}
+          </p>
+
+          <button
+            ref={sealRef}
+            type="button"
+            className="envelope-seal-button"
+            onClick={handleOpen}
+            data-testid="open-envelope"
+          >
+            <img
+              alt="Envelope button"
+              className="envelope-seal-image"
+              src="/assets/images/red_seal.png"
+            />
+          </button>
+
+          <div ref={sealCalloutRef} className="seal-callout" aria-hidden="true">
+            <p className="seal-callout-text">
+              Բացել
+              <br />
+              այստեղ
+            </p>
+            <span className="seal-callout-arrow" />
+          </div>
+        </div>
       </div>
-
-      <button
-        ref={sealRef}
-        type="button"
-        className="wax-seal"
-        onClick={handleOpen}
-        data-testid="open-envelope"
-      >
-        hyoor
-      </button>
     </div>
   );
 };

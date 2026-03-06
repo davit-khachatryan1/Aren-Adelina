@@ -4,6 +4,18 @@ import { describe, expect, it } from "vitest";
 import { RsvpSection } from "./RsvpSection";
 
 describe("RsvpSection behavior", () => {
+  it("keeps core fields accessible by labels", () => {
+    render(<RsvpSection />);
+
+    expect(screen.getByLabelText("Այո, կգամ")).toBeInTheDocument();
+    expect(screen.getByLabelText("Ցավոք, չեմ կարող")).toBeInTheDocument();
+    expect(screen.getByLabelText("Լիդիայի")).toBeInTheDocument();
+    expect(screen.getByLabelText("Դավիթի")).toBeInTheDocument();
+    expect(screen.getByLabelText("Անուն, Ազգանուն")).toBeInTheDocument();
+    expect(screen.getByLabelText("Հյուրերի քանակը")).toBeInTheDocument();
+    expect(screen.getByLabelText("Մեկնաբանություն (ըստ ցանկության)")).toBeInTheDocument();
+  });
+
   it("disables participation checkboxes when attendance is no", async () => {
     const user = userEvent.setup();
     render(<RsvpSection />);

@@ -22,6 +22,14 @@ describe("App integration", () => {
     render(<App />);
 
     expect(screen.queryByLabelText("Հայերեն")).not.toBeInTheDocument();
+    expect(document.querySelector(".app-shell")).toHaveAttribute("data-hero-ready", "false");
+
+    await user.click(screen.getByTestId("open-envelope"));
+
+    await waitFor(() => {
+      expect(document.querySelector(".app-shell")).toHaveAttribute("data-hero-ready", "true");
+      expect(screen.getByTestId("hero-content")).toHaveClass("is-visible");
+    });
 
     const scrollSpy = vi.spyOn(Element.prototype, "scrollIntoView");
     await user.click(screen.getByTestId("rsvp-cta"));

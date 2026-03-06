@@ -6,7 +6,7 @@ interface HeroSectionProps {
   sectionRef: RefObject<HTMLElement>;
   countdown: CountdownParts;
   onScrollDown: () => void;
-  introComplete: boolean;
+  heroReady: boolean;
 }
 
 const countdownLabels = ["Օր", "Ժամ", "Րոպե", "Վայրկյան"];
@@ -15,7 +15,7 @@ export const HeroSection = ({
   sectionRef,
   countdown,
   onScrollDown,
-  introComplete
+  heroReady
 }: HeroSectionProps) => {
   return (
     <section
@@ -27,7 +27,7 @@ export const HeroSection = ({
     >
       <div className="hero-overlay" />
       <div
-        className={`hero-content ${introComplete ? "is-visible" : "is-hidden"}`}
+        className={`hero-content ${heroReady ? "is-visible" : "is-hidden"}`}
         data-testid="hero-content"
       >
         <h1 className="hero-title">{siteConfig.coupleNames}</h1>
@@ -44,16 +44,16 @@ export const HeroSection = ({
             )
           )}
         </div>
-
-        <button
-          type="button"
-          className="scroll-down"
-          onClick={onScrollDown}
-          aria-label="Սահել ներքև"
-        >
-          ˅
-        </button>
       </div>
+
+      <button
+        type="button"
+        className="scroll-down"
+        onClick={onScrollDown}
+        aria-label="Սահել ներքև"
+      >
+        ˅
+      </button>
     </section>
   );
 };

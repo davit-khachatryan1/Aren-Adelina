@@ -37,8 +37,8 @@ export const siteConfig: WeddingConfig & {
 } = {
   locale: "hy",
   coupleNames: "Արեն և Ադելինա",
-  weddingDateISO: "2026-04-19T16:00:00+04:00",
-  weddingDateLabel: "Ապրիլ 19, 2026",
+  weddingDateISO: "2026-04-18T16:00:00+04:00",
+  weddingDateLabel: "Ապրիլ 18, 2026",
   heroImage: "/assets/images/hero-couple.jpg",
   storyImages: [
     {
@@ -63,7 +63,7 @@ export const siteConfig: WeddingConfig & {
     title: "Դուք հրավիրված եք մեր հարսանիքին",
     tapHint: "Բացեք ծրարը",
     footer:
-      "Այս կայքում դուք կտեսնեք արարողության մանրամասները և RSVP ձևը։ Խնդրում ենք հաստատել մասնակցությունը ժամանակին։"
+      "Այս հրավերը Դուք պատահական չեք ստացել։\nՄեզ համար հատկապես կարևոր է, որ այս յուրահատուկ օրը մեր կողքին լինեն ամենամտերիմ մարդիկ։"
   },
   story: {
     title: "Սիրելի հարազատներ և ընկերներ",
@@ -76,9 +76,10 @@ export const siteConfig: WeddingConfig & {
       id: "ceremony",
       title: "Պսակադրություն",
       time: "16:00",
-      venue: "Սուրբ Գևորգ եկեղեցի",
-      address: "Արարատի մարզ, գ. Մարմարաշեն, 36-րդ փողոց",
-      mapUrl: "https://maps.google.com/?q=40.059,44.521",
+      venue: "Կեչառիսի վանական համալիր",
+      address: "Խաչատուր Կեչառեցի փողոց",
+      mapUrl:
+        "https://www.google.com/maps/place/Kecharis+Monastery/@40.5336195,44.7155304,100m/data=!3m1!1e3!4m14!1m7!3m6!1s0x404037290539f92b:0x3386c1118388b29d!2sKecharis+Monastery!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4!3m5!1s0x404037290539f92b:0x3386c1118388b29d!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4?entry=ttu&g_ep=EgoyMDI2MDMwMi4wIKXMDSoASAFQAw%3D%3D",
       icon: "/assets/icons/rings.svg"
     },
     {
