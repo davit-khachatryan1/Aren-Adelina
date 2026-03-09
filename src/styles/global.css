@@ -888,7 +888,7 @@ textarea {
   .story-section {
     min-height: 100svh;
     padding: 7.6rem 0 8rem;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     align-items: center;
     gap: 2.9rem;
   }
@@ -911,13 +911,13 @@ textarea {
 
   .story-gallery {
     order: 2;
-    width: min(100%, 41rem);
-    min-height: 35rem;
+    width: min(100%, 50rem);
+    min-height: 43rem;
   }
 
   .story-card {
-    width: 61%;
-    max-width: 21rem;
+    width: 68%;
+    max-width: 27rem;
   }
 
   .story-card img {
@@ -926,7 +926,7 @@ textarea {
 
   .story-card-primary {
     left: 0.6rem;
-    top: 2.8rem;
+    top: 3.2rem;
   }
 
   .story-card-secondary {
@@ -963,16 +963,16 @@ textarea {
   }
 
   .story-gallery {
-    width: min(100%, 45rem);
-    min-height: 39rem;
+    width: min(100%, 54rem);
+    min-height: 47rem;
   }
 
   .story-card {
-    max-width: 24.5rem;
+    max-width: 31rem;
   }
 
   .story-card-primary {
-    top: 3.8rem;
+    top: 4.2rem;
     left: 0;
   }
 

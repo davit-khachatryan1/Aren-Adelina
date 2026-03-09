@@ -38,7 +38,7 @@ test("rsvp submit success", async ({ page }) => {
   await page.getByTestId("rsvp-cta").click();
 
   await page.getByRole("textbox", { name: "Անուն, Ազգանուն" }).fill("Test Guest");
-  await page.getByLabel("Լիդիայի").check();
+  await page.getByLabel("Ադելինայի").check();
   await page.getByTestId("submit-rsvp").click();
 
   await expect(page.getByText("Շնորհակալություն, ձեր պատասխանն ընդունվեց։")).toBeVisible();
@@ -54,7 +54,7 @@ test("rsvp submit error", async ({ page }) => {
   await page.getByTestId("rsvp-cta").click();
 
   await page.getByRole("textbox", { name: "Անուն, Ազգանուն" }).fill("Test Guest");
-  await page.getByLabel("Լիդիայի").check();
+  await page.getByLabel("Ադելինայի").check();
   await page.getByTestId("submit-rsvp").click();
 
   await expect(page.getByText("Չհաջողվեց ուղարկել։ Փորձեք կրկին։")).toBeVisible();

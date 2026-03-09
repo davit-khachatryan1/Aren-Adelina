@@ -80,7 +80,7 @@ export const siteConfig: WeddingConfig & {
       address: "Խաչատուր Կեչառեցի փողոց",
       mapUrl:
         "https://www.google.com/maps/place/Kecharis+Monastery/@40.5336195,44.7155304,100m/data=!3m1!1e3!4m14!1m7!3m6!1s0x404037290539f92b:0x3386c1118388b29d!2sKecharis+Monastery!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4!3m5!1s0x404037290539f92b:0x3386c1118388b29d!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4?entry=ttu&g_ep=EgoyMDI2MDMwMi4wIKXMDSoASAFQAw%3D%3D",
-      icon: "/assets/icons/rings.svg"
+      icon: "/assets/icons/ceremony-champagne.svg"
     },
     {
       id: "party",
@@ -89,7 +89,7 @@ export const siteConfig: WeddingConfig & {
       venue: "«Մորենա» ռեստորանային համալիր",
       address: "ք. Մասիս, Մխչյան խճուղի 7/8",
       mapUrl: "https://maps.google.com/?q=40.061,44.424",
-      icon: "/assets/icons/champagne.svg"
+      icon: "/assets/icons/party-ring.svg"
     }
   ],
   rsvp: {
@@ -99,9 +99,9 @@ export const siteConfig: WeddingConfig & {
       attendingQuestion: "Կկարողանա՞ք ներկա գտնվել միջոցառմանը",
       attendingYes: "Այո, կգամ",
       attendingNo: "Ցավոք, չեմ կարող",
-      partsQuestion: "Ո՞ր փուլին եք հրավիրված",
-      ceremony: "Լիդիայի",
-      party: "Դավիթի",
+      partsQuestion: "Ում կողմից եք հրավիրված",
+      ceremony: "Ադելինայի",
+      party: "Արենի",
       fullName: "Անուն, Ազգանուն",
       guestCount: "Հյուրերի քանակը",
       note: "Մեկնաբանություն (ըստ ցանկության)",

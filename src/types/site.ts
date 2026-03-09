@@ -41,7 +41,7 @@ export interface CountdownParts {
 
 export interface RsvpPayload {
   attending: "yes" | "no";
-  attendingParts: Array<"ceremony" | "party">;
+  attendingParts: string[];
   fullName: string;
   guestCount: number;
   note?: string;

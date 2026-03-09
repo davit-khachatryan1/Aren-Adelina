@@ -9,8 +9,8 @@ describe("RsvpSection behavior", () => {
 
     expect(screen.getByLabelText("Այո, կգամ")).toBeInTheDocument();
     expect(screen.getByLabelText("Ցավոք, չեմ կարող")).toBeInTheDocument();
-    expect(screen.getByLabelText("Լիդիայի")).toBeInTheDocument();
-    expect(screen.getByLabelText("Դավիթի")).toBeInTheDocument();
+    expect(screen.getByLabelText("Ադելինայի")).toBeInTheDocument();
+    expect(screen.getByLabelText("Արենի")).toBeInTheDocument();
     expect(screen.getByLabelText("Անուն, Ազգանուն")).toBeInTheDocument();
     expect(screen.getByLabelText("Հյուրերի քանակը")).toBeInTheDocument();
     expect(screen.getByLabelText("Մեկնաբանություն (ըստ ցանկության)")).toBeInTheDocument();
@@ -20,8 +20,8 @@ describe("RsvpSection behavior", () => {
     const user = userEvent.setup();
     render(<RsvpSection />);
 
-    const ceremony = screen.getByLabelText("Լիդիայի") as HTMLInputElement;
-    const party = screen.getByLabelText("Դավիթի") as HTMLInputElement;
+    const ceremony = screen.getByLabelText("Ադելինայի") as HTMLInputElement;
+    const party = screen.getByLabelText("Արենի") as HTMLInputElement;
     const guestCount = screen.getByLabelText("Հյուրերի քանակը") as HTMLInputElement;
 
     expect(ceremony.disabled).toBe(false);
@@ -39,8 +39,8 @@ describe("RsvpSection behavior", () => {
     const user = userEvent.setup();
     render(<RsvpSection />);
 
-    const ceremony = screen.getByLabelText("Լիդիայի") as HTMLInputElement;
-    const party = screen.getByLabelText("Դավիթի") as HTMLInputElement;
+    const ceremony = screen.getByLabelText("Ադելինայի") as HTMLInputElement;
+    const party = screen.getByLabelText("Արենի") as HTMLInputElement;
 
     await user.click(screen.getByLabelText("Ցավոք, չեմ կարող"));
     expect(ceremony.disabled).toBe(true);

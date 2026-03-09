@@ -12,21 +12,14 @@ export const submitRsvp = async (
   }
 
   try {
-    const response = await fetch(endpoint, {
+    await fetch(endpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      mode: "no-cors",
       body: JSON.stringify(payload)
     });
 
-    if (!response.ok) {
-      return {
-        ok: false,
-        message: `HTTP ${response.status}`
-      };
-    }
-
+    // With no-cors we can't read status; if fetch doesn't throw,
+    // assume success so the UI can show the thank-you message.
     return { ok: true };
   } catch {
     return {

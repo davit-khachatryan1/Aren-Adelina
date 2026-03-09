@@ -38,10 +38,18 @@ export const rsvpSchema = z
 
 export type RsvpFormValues = z.infer<typeof rsvpSchema>;
 
-export const normalizeRsvpPayload = (values: RsvpFormValues): RsvpPayload => ({
-  attending: values.attending,
-  attendingParts: values.attendingParts,
-  fullName: values.fullName.trim(),
-  guestCount: values.guestCount,
-  note: values.note?.trim() || undefined
-});
+export const normalizeRsvpPayload = (values: RsvpFormValues): RsvpPayload => {
+  const mappedParts = values.attendingParts.map(part => {
+    if (part === "ceremony") return "Adelinayi";
+    if (part === "party") return "Areni";
+    return part;
+  });
+
+  return {
+    attending: values.attending,
+    attendingParts: mappedParts,
+    fullName: values.fullName.trim(),
+    guestCount: values.guestCount,
+    note: values.note?.trim() || undefined
+  };
+};

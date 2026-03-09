@@ -124,28 +124,14 @@ export const useStoryScrollAnimation = ({
             },
             scrollTrigger: {
               trigger: section,
-              start: "top 20%",
-              end: "+=110%",
-              scrub: 0.75,
-              pin: true,
-              anticipatePin: 1,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 0.6,
               invalidateOnRefresh: true
             }
           })
-          .to(primary, {
-            y: -44,
-            x: -24,
-            duration: 0.5
-          })
-          .to(
-            secondary,
-            {
-              y: 34,
-              x: 24,
-              duration: 0.5
-            },
-            "<"
-          );
+          .fromTo(primary, { y: 0, x: 0 }, { y: -44, x: -24, duration: 1 })
+          .fromTo(secondary, { y: 0, x: 0 }, { y: 34, x: 24, duration: 1 }, "<");
       }, section);
 
       return () => {
