@@ -78,8 +78,10 @@ export const siteConfig: WeddingConfig & {
       time: "16:00",
       venue: "Կեչառիսի վանական համալիր",
       address: "Խաչատուր Կեչառեցի փողոց",
-      mapUrl:
-        "https://www.google.com/maps/place/Kecharis+Monastery/@40.5336195,44.7155304,100m/data=!3m1!1e3!4m14!1m7!3m6!1s0x404037290539f92b:0x3386c1118388b29d!2sKecharis+Monastery!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4!3m5!1s0x404037290539f92b:0x3386c1118388b29d!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4?entry=ttu&g_ep=EgoyMDI2MDMwMi4wIKXMDSoASAFQAw%3D%3D",
+      mapLinks: {
+        google:
+          "https://www.google.com/maps/place/Kecharis+Monastery/@40.5336195,44.7155304,100m/data=!3m1!1e3!4m14!1m7!3m6!1s0x404037290539f92b:0x3386c1118388b29d!2sKecharis+Monastery!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4!3m5!1s0x404037290539f92b:0x3386c1118388b29d!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4?entry=ttu&g_ep=EgoyMDI2MDMwMi4wIKXMDSoASAFQAw%3D%3D",
+      },
       icon: "/assets/icons/party-ring.svg",
     },
     {
@@ -88,7 +90,11 @@ export const siteConfig: WeddingConfig & {
       time: "17:30",
       venue: "«Պալաիս» ռեստորանային համալիր",
       address: "Ք.Հրազդան,Չարենցի փողոց 3",
-      mapUrl: "https://maps.app.goo.gl/GsqjKRCgSQDJpF876",
+      mapLinks: {
+        google: "https://maps.app.goo.gl/GsqjKRCgSQDJpF876",
+        yandex:
+          "https://yandex.com/maps/org/palais_wedding_hall/202867135433/?ll=44.753757%2C40.500713&utm_source=share&z=18",
+      },
       icon: "/assets/icons/ceremony-champagne.svg",
     },
   ],
@@ -113,9 +119,8 @@ export const siteConfig: WeddingConfig & {
   info: {
     title: "ԿԱՐԵՎՈՐ",
     paragraphs: [
-      "Հարգելի հյուրեր, սիրով խնդրում ենք ժամանակին ժամանել, որպեսզի արարողությունը սկսվի նախատեսված ժամին։",
+      "Հարգելի հյուրեր, խնդրում ենք ներկայանալ ժամանակին։",
       "Խնդրում ենք պահպանել տոնական տրամադրությունը և ժպիտը։",
-      "Ձեր ներկայությունը մեր համար մեծ օրհնություն է, և անհամբերությամբ սպասում ենք այդ օրվան։",
     ],
   },
 };
@@ -138,6 +143,17 @@ export const assertWeddingConfig = (input: WeddingConfig): WeddingConfig => {
   }
   if (input.events.length < 1) {
     throw new Error("At least one event is required");
+  }
+  if (
+    input.events.some((event) => {
+      const mapLinks = Object.values(event.mapLinks).filter(
+        (url): url is string =>
+          typeof url === "string" && url.trim().length > 0,
+      );
+      return mapLinks.length === 0;
+    })
+  ) {
+    throw new Error("Each event must include at least one map link");
   }
   return input;
 };

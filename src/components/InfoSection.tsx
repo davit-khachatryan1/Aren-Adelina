@@ -20,6 +20,10 @@ export const InfoSection = () => {
           {paragraph}
         </p>
       ))}
+{/* 
+    <div className="info-title info-reveal">
+    Սիրով Արեն և Ադելինա
+    </div> */}
     </section>
   );
 };

@@ -1,12 +1,17 @@
 export type SectionId = "hero" | "story" | "schedule" | "rsvp" | "info";
 
+export interface EventMapLinks {
+  google?: string;
+  yandex?: string;
+}
+
 export interface EventItem {
   id: string;
   title: string;
   time: string;
   venue: string;
   address: string;
-  mapUrl: string;
+  mapLinks: EventMapLinks;
   icon: string;
 }
 

@@ -419,10 +419,51 @@ textarea {
   min-height: 2.5rem;
   min-width: 9.5rem;
   padding: 0 1.2rem;
+  border: 0;
   background: #000;
   color: #fff;
+  font: inherit;
   text-decoration: none;
   box-shadow: 0 9px 18px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+}
+
+.map-button-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.map-button-stack .map-button {
+  margin-top: 0;
+}
+
+.map-button.is-open {
+  background: #111;
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.24);
+}
+
+.map-chooser {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
+  padding: 0.8rem;
+  min-width: 12rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+}
+
+.map-provider-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: 0 1rem;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
 }
 
 .rsvp-section {
