@@ -20,7 +20,7 @@ export const StorySection = () => {
   const touchStartXRef = useRef<number | null>(null);
   const touchDeltaXRef = useRef(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-  const [isMobileSlider, setIsMobileSlider] = useState(() => window.innerWidth < 1024);
+  const [isMobileSlider, setIsMobileSlider] = useState(false);
 
   const primaryImage = useMemo(
     () =>

@@ -67,10 +67,12 @@ class MockIntersectionObserver {
 
 vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
 
-Object.defineProperty(Element.prototype, "scrollIntoView", {
-  value: vi.fn(),
-  writable: true
-});
+if (typeof Element !== "undefined") {
+  Object.defineProperty(Element.prototype, "scrollIntoView", {
+    value: vi.fn(),
+    writable: true
+  });
+}
 
 afterEach(() => {
   cleanup();

@@ -7,6 +7,13 @@ const expectedImage = "https://aren-adelina.vercel.app/assets/social/og-card.jpg
 const expectedTitle = "Արենի և Ադելինայի հարսանեկան հրավերք";
 const expectedDescription =
   "Սիրով հրավիրում ենք ձեզ Արենի և Ադելինայի հարսանիքին՝ կիսելու մեզ հետ այս հատուկ օրը։";
+const expectedStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: expectedTitle,
+  url: expectedUrl,
+  image: expectedImage
+};
 const expectedAssetPath = resolve(
   process.cwd(),
   "public/assets/social/og-card.jpg"
@@ -54,6 +61,28 @@ describe("SEO metadata", () => {
     expect(ogImageWidth?.getAttribute("content")).toBe("1200");
     expect(ogImageHeight?.getAttribute("content")).toBe("630");
     expect(twitterImage?.getAttribute("content")).toBe(expectedImage);
+  });
+
+  it("adds crawl directives and structured data for search engines", () => {
+    const { document } = loadDocument();
+    const robots = document.querySelector('meta[name="robots"]');
+    const googlebot = document.querySelector('meta[name="googlebot"]');
+    const alternate = document.querySelector(
+      'link[rel="alternate"][hreflang="hy-AM"]'
+    );
+    const structuredData = document.querySelector(
+      'script[type="application/ld+json"]'
+    );
+    const parsedStructuredData = JSON.parse(structuredData?.textContent ?? "{}");
+
+    expect(robots?.getAttribute("content")).toContain("index,follow");
+    expect(googlebot?.getAttribute("content")).toContain("index,follow");
+    expect(alternate?.getAttribute("href")).toBe(expectedUrl);
+    expect(parsedStructuredData["@context"]).toBe(expectedStructuredData["@context"]);
+    expect(parsedStructuredData["@type"]).toBe(expectedStructuredData["@type"]);
+    expect(parsedStructuredData.name).toBe(expectedStructuredData.name);
+    expect(parsedStructuredData.url).toBe(expectedStructuredData.url);
+    expect(parsedStructuredData.image).toBe(expectedStructuredData.image);
   });
 
   it("keeps title and description aligned across SEO card tags", () => {

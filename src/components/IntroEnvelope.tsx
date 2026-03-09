@@ -25,6 +25,7 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
 
   const prefersReducedMotion = useMemo(
     () =>
+      typeof window !== "undefined" &&
       window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     []

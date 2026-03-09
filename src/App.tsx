@@ -85,16 +85,18 @@ const App = () => {
         <IntroEnvelope onRevealReady={() => setHeroReady(true)} onOpened={handleIntroOpened} />
       ) : null}
 
-      <HeroSection
-        sectionRef={heroRef}
-        countdown={countdown}
-        heroReady={heroReady}
-        onScrollDown={() => scrollToSection("story")}
-      />
-      <StorySection />
-      <ScheduleSection />
-      <RsvpSection />
-      <InfoSection />
+      <main id="main-content">
+        <HeroSection
+          sectionRef={heroRef}
+          countdown={countdown}
+          heroReady={heroReady}
+          onScrollDown={() => scrollToSection("story")}
+        />
+        <StorySection />
+        <ScheduleSection />
+        <RsvpSection />
+        <InfoSection />
+      </main>
     </div>
   );
 };
