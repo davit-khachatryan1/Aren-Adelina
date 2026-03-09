@@ -1,13 +1,16 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const expectedUrl = "https://aren-adelina.vercel.app/";
-const expectedImage =
-  "https://raw.githubusercontent.com/davit-khachatryan1/Aren-Adelina/refs/heads/main/public/assets/images/hero-couple.jpg";
+const expectedImage = "https://aren-adelina.vercel.app/assets/social/og-card.jpg";
 const expectedTitle = "Արենի և Ադելինայի հարսանեկան հրավերք";
 const expectedDescription =
   "Սիրով հրավիրում ենք ձեզ Արենի և Ադելինայի հարսանիքին՝ կիսելու մեզ հետ այս հատուկ օրը։";
+const expectedAssetPath = resolve(
+  process.cwd(),
+  "public/assets/social/og-card.jpg"
+);
 
 const loadDocument = () => {
   const html = readFileSync(resolve(process.cwd(), "index.html"), "utf8");
@@ -32,10 +35,24 @@ describe("SEO metadata", () => {
     const { document } = loadDocument();
     const ogUrl = document.querySelector('meta[property="og:url"]');
     const ogImage = document.querySelector('meta[property="og:image"]');
+    const ogImageUrl = document.querySelector('meta[property="og:image:url"]');
+    const ogImageSecureUrl = document.querySelector(
+      'meta[property="og:image:secure_url"]'
+    );
+    const ogImageWidth = document.querySelector(
+      'meta[property="og:image:width"]'
+    );
+    const ogImageHeight = document.querySelector(
+      'meta[property="og:image:height"]'
+    );
     const twitterImage = document.querySelector('meta[name="twitter:image"]');
 
     expect(ogUrl?.getAttribute("content")).toBe(expectedUrl);
     expect(ogImage?.getAttribute("content")).toBe(expectedImage);
+    expect(ogImageUrl?.getAttribute("content")).toBe(expectedImage);
+    expect(ogImageSecureUrl?.getAttribute("content")).toBe(expectedImage);
+    expect(ogImageWidth?.getAttribute("content")).toBe("1200");
+    expect(ogImageHeight?.getAttribute("content")).toBe("630");
     expect(twitterImage?.getAttribute("content")).toBe(expectedImage);
   });
 
@@ -53,5 +70,12 @@ describe("SEO metadata", () => {
     expect(twitterTitle?.getAttribute("content")).toBe(expectedTitle);
     expect(twitterDescription?.getAttribute("content")).toBe(expectedDescription);
     expect(html).not.toContain("și");
+  });
+
+  it("ships a local social card asset for the metadata image", () => {
+    const assetStats = statSync(expectedAssetPath);
+
+    expect(assetStats.isFile()).toBe(true);
+    expect(assetStats.size).toBeGreaterThan(0);
   });
 });
