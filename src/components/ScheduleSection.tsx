@@ -92,7 +92,7 @@ export const ScheduleSection = () => {
                 </div>
               ) : (
                 <a className="map-button" href={singleProviderUrl} target="_blank" rel="noreferrer">
-                  հասցե
+                  Տեսնել հասցե
                 </a>
               )}
             </article>
