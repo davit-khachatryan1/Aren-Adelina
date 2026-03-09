@@ -22,7 +22,7 @@ export const rsvpSchema = z
     if (data.attending === "yes" && data.attendingParts.length === 0) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Ընտրեք գոնե մեկ փուլ",
+        message: "Ընտրեք գոնե մեկին",
         path: ["attendingParts"]
       });
     }
