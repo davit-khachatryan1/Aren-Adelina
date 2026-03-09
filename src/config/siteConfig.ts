@@ -56,7 +56,7 @@ export const siteConfig: WeddingConfig & {
       layer: "secondary"
     }
   ],
-  musicFile: "/assets/audio/wedding-theme.mp3",
+  musicFile: "/assets/audio/talking-to-the-moon.mp3",
   rsvpEndpoint: import.meta.env.VITE_RSVP_ENDPOINT ?? "/rsvp",
   ctaLabel: "Պատասխանել",
   intro: {
