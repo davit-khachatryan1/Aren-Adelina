@@ -55,6 +55,24 @@ export const siteConfig: WeddingConfig & {
       mobileObjectPosition: "53% 30%",
       layer: "secondary",
     },
+    {
+      src: "/assets/images/arenAdel.jpg",
+      alt: "Զույգի լուսանկար 3",
+      desktopObjectPosition: "50% 24%",
+      mobileObjectPosition: "50% 24%",
+    },
+    {
+      src: "/assets/images/ArenAdel1.jpg",
+      alt: "Զույգի լուսանկար 4",
+      desktopObjectPosition: "50% 22%",
+      mobileObjectPosition: "50% 22%",
+    },
+    {
+      src: "/assets/images/arenadel2.jpg",
+      alt: "Զույգի լուսանկար 5",
+      desktopObjectPosition: "50% 24%",
+      mobileObjectPosition: "50% 24%",
+    },
   ],
   musicFile: "/assets/audio/talking-to-the-moon.mp3",
   rsvpEndpoint: import.meta.env.VITE_RSVP_ENDPOINT ?? "/rsvp",
@@ -68,7 +86,7 @@ export const siteConfig: WeddingConfig & {
   story: {
     title: "Սիրելի հարազատներ և ընկերներ",
     description:
-      "Սիրով հրավիրում ենք ձեզ մեր հարսանյաց արարողությանը։ Ձեր ներկայությունը մեր օրվա էլ ավելի անսահման ուրախություն կպարգևի։",
+      "Սիրով հրավիրում ենք ձեզ մեր հարսանյաց արարողությանը՝ կիսելու մեր կյանքի այդ լուսավոր օրը։",
   },
   scheduleTitle: "Օրվա ծրագիրը",
   events: [

@@ -330,6 +330,17 @@ textarea {
   min-height: 23rem;
 }
 
+.story-gallery-desktop {
+  display: none;
+  position: relative;
+  width: 100%;
+  min-height: 23rem;
+}
+
+.story-gallery-mobile {
+  display: block;
+}
+
 .story-card {
   position: absolute;
   width: 72%;
@@ -358,6 +369,119 @@ textarea {
   right: 0.1rem;
   top: 2rem;
   z-index: 2;
+}
+
+.story-slider {
+  width: min(100%, 21rem);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.story-slider-track {
+  display: flex;
+  transition: transform 0.45s ease;
+}
+
+.story-slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-height: 23rem;
+}
+
+.story-slide-card {
+  position: absolute;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  overflow: hidden;
+  background: #ddd;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+}
+
+.story-slide-card-left,
+.story-slide-card-right {
+  width: 54%;
+  top: 1.85rem;
+  z-index: 1;
+  opacity: 0.78;
+}
+
+.story-slide-card-left {
+  left: -0.25rem;
+}
+
+.story-slide-card-front {
+  width: 72%;
+  left: 50%;
+  top: 0.5rem;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.story-slide-card-right {
+  right: -0.25rem;
+}
+
+.story-slide-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--story-mobile-pos, center);
+  filter: grayscale(100%);
+}
+
+.story-slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.story-slider-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+
+.story-slider-dot.is-active {
+  background: #111;
+  transform: scale(1.15);
+}
+
+@media (max-width: 1023px) {
+  .story-gallery {
+    width: min(calc(100vw - 1rem), 23rem);
+    min-height: 26rem;
+  }
+
+  .story-slider {
+    width: 100%;
+  }
+
+  .story-slide {
+    min-height: 26rem;
+  }
+
+  .story-slide-card-left,
+  .story-slide-card-right {
+    width: 58%;
+    top: 1.7rem;
+  }
+
+  .story-slide-card-left {
+    left: -0.4rem;
+  }
+
+  .story-slide-card-front {
+    width: 76%;
+    top: 0.2rem;
+  }
+
+  .story-slide-card-right {
+    right: -0.4rem;
+  }
 }
 
 .schedule-section {
@@ -1036,6 +1160,16 @@ textarea {
 
   .rsvp-field {
     margin-top: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .story-gallery-desktop {
+    display: block;
+  }
+
+  .story-gallery-mobile {
+    display: none;
   }
 }
 

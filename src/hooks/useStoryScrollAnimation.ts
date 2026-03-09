@@ -11,6 +11,7 @@ export type StoryScrollMode =
 
 interface StoryScrollAnimationOptions {
   sectionRef: RefObject<HTMLElement>;
+  galleryRef: RefObject<HTMLElement>;
   textRef: RefObject<HTMLElement>;
   primaryCardRef: RefObject<HTMLElement>;
   secondaryCardRef: RefObject<HTMLElement>;
@@ -20,6 +21,7 @@ const DESKTOP_MIN_WIDTH = 1024;
 
 export const useStoryScrollAnimation = ({
   sectionRef,
+  galleryRef,
   textRef,
   primaryCardRef,
   secondaryCardRef
@@ -28,11 +30,12 @@ export const useStoryScrollAnimation = ({
 
   useEffect(() => {
     const section = sectionRef.current;
+    const gallery = galleryRef.current;
     const text = textRef.current;
     const primary = primaryCardRef.current;
     const secondary = secondaryCardRef.current;
 
-    if (!section || !text || !primary || !secondary) {
+    if (!section || !gallery || !text) {
       return;
     }
 
@@ -42,7 +45,7 @@ export const useStoryScrollAnimation = ({
     const isDesktop = window.innerWidth >= DESKTOP_MIN_WIDTH;
     const isTestMode = import.meta.env.MODE === "test";
 
-    const nodes = [text, primary, secondary];
+    const mobileNodes = [text, gallery];
 
     if (prefersReducedMotion) {
       setMode("reduced-motion");
@@ -51,7 +54,7 @@ export const useStoryScrollAnimation = ({
       }
 
       gsap.fromTo(
-        nodes,
+        mobileNodes,
         {
           opacity: 0,
           y: 12
@@ -68,6 +71,10 @@ export const useStoryScrollAnimation = ({
     }
 
     if (isDesktop) {
+      if (!primary || !secondary) {
+        return;
+      }
+
       setMode("desktop-scroll");
       if (isTestMode) {
         return;
@@ -144,7 +151,7 @@ export const useStoryScrollAnimation = ({
       return;
     }
 
-    gsap.set(nodes, { opacity: 0, y: 28 });
+    gsap.set(mobileNodes, { opacity: 0, y: 28 });
 
     const observer = new IntersectionObserver(
       entries => {
@@ -153,7 +160,7 @@ export const useStoryScrollAnimation = ({
             return;
           }
 
-          gsap.to(nodes, {
+          gsap.to(mobileNodes, {
             opacity: 1,
             y: 0,
             duration: 0.85,
@@ -174,7 +181,7 @@ export const useStoryScrollAnimation = ({
     return () => {
       observer.disconnect();
     };
-  }, [sectionRef, textRef, primaryCardRef, secondaryCardRef]);
+  }, [sectionRef, galleryRef, textRef, primaryCardRef, secondaryCardRef]);
 
   return mode;
 };

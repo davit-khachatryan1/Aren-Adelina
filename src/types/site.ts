@@ -20,7 +20,7 @@ export interface StoryImageSpec {
   alt: string;
   desktopObjectPosition: string;
   mobileObjectPosition: string;
-  layer: "primary" | "secondary";
+  layer?: "primary" | "secondary";
 }
 
 export interface WeddingConfig {
