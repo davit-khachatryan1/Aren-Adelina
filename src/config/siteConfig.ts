@@ -46,15 +46,15 @@ export const siteConfig: WeddingConfig & {
       alt: "Զույգի լուսանկար 1",
       desktopObjectPosition: "47% 36%",
       mobileObjectPosition: "50% 30%",
-      layer: "primary"
+      layer: "primary",
     },
     {
       src: "/assets/images/story-desktop-2.jpg",
       alt: "Զույգի լուսանկար 2",
       desktopObjectPosition: "54% 28%",
       mobileObjectPosition: "53% 30%",
-      layer: "secondary"
-    }
+      layer: "secondary",
+    },
   ],
   musicFile: "/assets/audio/talking-to-the-moon.mp3",
   rsvpEndpoint: import.meta.env.VITE_RSVP_ENDPOINT ?? "/rsvp",
@@ -63,12 +63,12 @@ export const siteConfig: WeddingConfig & {
     title: "Դուք հրավիրված եք մեր հարսանիքին",
     tapHint: "Բացեք ծրարը",
     footer:
-      "Այս հրավերը Դուք պատահական չեք ստացել։\nՄեզ համար հատկապես կարևոր է, որ այս յուրահատուկ օրը մեր կողքին լինեն ամենամտերիմ մարդիկ։"
+      "Այս հրավերը Դուք պատահական չեք ստացել։\nՄեզ համար հատկապես կարևոր է, որ այս յուրահատուկ օրը մեր կողքին լինեն ամենամտերիմ մարդիկ։",
   },
   story: {
     title: "Սիրելի հարազատներ և ընկերներ",
     description:
-      "Սիրով հրավիրում ենք ձեզ մեր հարսանյաց արարողությանը։ Ձեր ներկայությունը մեր օրվա էլ ավելի անսահման ուրախություն կպարգևի։"
+      "Սիրով հրավիրում ենք ձեզ մեր հարսանյաց արարողությանը։ Ձեր ներկայությունը մեր օրվա էլ ավելի անսահման ուրախություն կպարգևի։",
   },
   scheduleTitle: "Օրվա ծրագիրը",
   events: [
@@ -80,17 +80,17 @@ export const siteConfig: WeddingConfig & {
       address: "Խաչատուր Կեչառեցի փողոց",
       mapUrl:
         "https://www.google.com/maps/place/Kecharis+Monastery/@40.5336195,44.7155304,100m/data=!3m1!1e3!4m14!1m7!3m6!1s0x404037290539f92b:0x3386c1118388b29d!2sKecharis+Monastery!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4!3m5!1s0x404037290539f92b:0x3386c1118388b29d!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4?entry=ttu&g_ep=EgoyMDI2MDMwMi4wIKXMDSoASAFQAw%3D%3D",
-      icon: "/assets/icons/ceremony-champagne.svg"
+      icon: "/assets/icons/party-ring.svg",
     },
     {
       id: "party",
       title: "Խնջույք",
       time: "17:30",
-      venue: "«Մորենա» ռեստորանային համալիր",
-      address: "ք. Մասիս, Մխչյան խճուղի 7/8",
-      mapUrl: "https://maps.google.com/?q=40.061,44.424",
-      icon: "/assets/icons/party-ring.svg"
-    }
+      venue: "«Պալաիս» ռեստորանային համալիր",
+      address: "Ք.Հրազդան,Չարենցի փողոց 3",
+      mapUrl: "https://maps.app.goo.gl/GsqjKRCgSQDJpF876",
+      icon: "/assets/icons/ceremony-champagne.svg",
+    },
   ],
   rsvp: {
     title: "Մասնակցության հաստատում",
@@ -107,17 +107,17 @@ export const siteConfig: WeddingConfig & {
       note: "Մեկնաբանություն (ըստ ցանկության)",
       submit: "Ուղարկել",
       success: "Շնորհակալություն, ձեր պատասխանն ընդունվեց։",
-      errorFallback: "Չհաջողվեց ուղարկել։ Փորձեք կրկին։"
-    }
+      errorFallback: "Չհաջողվեց ուղարկել։ Փորձեք կրկին։",
+    },
   },
   info: {
-    title: "Նախապես մեկ ժեչ",
+    title: "ԿԱՐԵՎՈՐ",
     paragraphs: [
       "Հարգելի հյուրեր, սիրով խնդրում ենք ժամանակին ժամանել, որպեսզի արարողությունը սկսվի նախատեսված ժամին։",
       "Խնդրում ենք պահպանել տոնական տրամադրությունը և ժպիտը։",
-      "Ձեր ներկայությունը մեր համար մեծ օրհնություն է, և անհամբերությամբ սպասում ենք այդ օրվան։"
-    ]
-  }
+      "Ձեր ներկայությունը մեր համար մեծ օրհնություն է, և անհամբերությամբ սպասում ենք այդ օրվան։",
+    ],
+  },
 };
 
 export const assertWeddingConfig = (input: WeddingConfig): WeddingConfig => {
@@ -133,7 +133,7 @@ export const assertWeddingConfig = (input: WeddingConfig): WeddingConfig => {
   if (input.storyImages.length < 2) {
     throw new Error("At least two story images are required");
   }
-  if (input.storyImages.some(image => !image.src.trim())) {
+  if (input.storyImages.some((image) => !image.src.trim())) {
     throw new Error("Each story image must include src");
   }
   if (input.events.length < 1) {

@@ -84,6 +84,9 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
       return;
     }
 
+    const sealAnticipationDuration = isTestMode ? 0 : 0.12;
+    const sealRotateOutDuration = isTestMode ? 0 : 0.56;
+    const copyRotateOutDuration = isTestMode ? 0 : 0.48;
     const topDepthDuration = isTestMode ? 0 : 0.22;
     const topOpenDuration = isTestMode ? 0 : 0.98;
     const bottomDuration = isTestMode ? 0 : 1.38;
@@ -108,6 +111,15 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
       z: 0,
       transformOrigin: "50% 0%"
     });
+    gsap.set([topTextRef.current, sealCalloutRef.current, bottomTextRef.current, sealRef.current], {
+      rotation: 0,
+      rotateX: 0,
+      rotateY: 0,
+      yPercent: 0,
+      opacity: 1,
+      filter: "none",
+      transformOrigin: "50% 50%"
+    });
 
     const timeline = gsap.timeline({
       defaults: {
@@ -117,42 +129,74 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
     });
     timelineRef.current = timeline;
 
-    const fadeTargets = [topTextRef.current, sealCalloutRef.current, bottomTextRef.current].filter(
-      Boolean
-    );
-
     timeline
-      .to(sealRef.current, {
-        scale: 0.9,
-        duration: 0.1
-      })
-      .to(sealRef.current, {
-        scale: 1.05,
-        duration: 0.12
-      })
-      .to(sealRef.current, {
-        scale: 1,
-        duration: 0.12
-      })
+      .addLabel("copyOut")
       .to(
         sealRef.current,
         {
-          autoAlpha: 0,
-          duration: isTestMode ? 0 : 0.22,
-          ease: "power1.out"
+          scale: 0.88,
+          rotation: -4,
+          duration: sealAnticipationDuration,
+          ease: "power2.in"
         },
-        "-=0.02"
+        "copyOut"
       )
       .to(
-        fadeTargets,
+        sealRef.current,
         {
-          opacity: 0,
-          filter: "blur(8px)",
-          duration: 0.35,
-          stagger: 0.05
+          scale: 0.78,
+          rotation: 20,
+          rotateX: -26,
+          rotateY: 18,
+          yPercent: -12,
+          autoAlpha: 0,
+          filter: "blur(8px) brightness(1.7)",
+          duration: sealRotateOutDuration,
+          ease: "power3.inOut"
         },
-        "-=0.03"
+        "copyOut+=0.08"
       )
+      .to(
+        topTextRef.current,
+        {
+          rotation: 4,
+          rotateY: 10,
+          yPercent: -6,
+          opacity: 0,
+          filter: "blur(6px)",
+          duration: isTestMode ? 0 : copyRotateOutDuration - 0.04,
+          ease: "sine.out"
+        },
+        "copyOut+=0.14"
+      )
+      .to(
+        sealCalloutRef.current,
+        {
+          rotation: 7,
+          rotateY: 12,
+          xPercent: -3,
+          yPercent: -5,
+          opacity: 0,
+          filter: "blur(6px)",
+          duration: isTestMode ? 0 : copyRotateOutDuration - 0.06,
+          ease: "sine.out"
+        },
+        "copyOut+=0.22"
+      )
+      .to(
+        bottomTextRef.current,
+        {
+          rotation: -3,
+          rotateY: 8,
+          yPercent: 10,
+          opacity: 0,
+          filter: "blur(7px)",
+          duration: copyRotateOutDuration,
+          ease: "sine.out"
+        },
+        "copyOut+=0.30"
+      )
+      .addLabel("open", "copyOut+=0.34")
       .to(
         topPartRef.current,
         {

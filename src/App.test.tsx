@@ -37,6 +37,26 @@ describe("App integration", () => {
     expect(scrollSpy).toHaveBeenCalledTimes(1);
   });
 
+  it("scrolls to the story section when the hero down icon is clicked", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByTestId("open-envelope"));
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "Սահել ներքև" })).toHaveClass("is-visible");
+    });
+
+    const storySection = document.getElementById("story");
+    const scrollSpy = vi.spyOn(Element.prototype, "scrollIntoView");
+
+    await user.click(screen.getByRole("button", { name: "Սահել ներքև" }));
+
+    expect(storySection).not.toBeNull();
+    expect(scrollSpy).toHaveBeenCalledTimes(1);
+    expect(scrollSpy.mock.instances[0]).toBe(storySection);
+  });
+
   it("does not play audio before interaction and starts after opening envelope", async () => {
     const user = userEvent.setup();
     const playSpy = vi.spyOn(Audio.prototype, "play");

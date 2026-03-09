@@ -164,8 +164,7 @@ textarea {
 .hero-content.is-visible .hero-title,
 .hero-content.is-visible .hero-date,
 .hero-content.is-visible .hero-subtitle,
-.hero-content.is-visible .countdown,
-.hero-content.is-visible .scroll-down {
+.hero-content.is-visible .countdown {
   opacity: 0;
   transform: translateY(16px);
   animation: hero-stagger 0.7s ease-out forwards;
@@ -181,10 +180,6 @@ textarea {
 
 .hero-content.is-visible .countdown {
   animation-delay: 0.24s;
-}
-
-.hero-content.is-visible .scroll-down {
-  animation-delay: 0.32s;
 }
 
 .hero-title,
@@ -246,15 +241,55 @@ textarea {
   position: absolute;
   left: 50%;
   bottom: clamp(1.5rem, 4vh, 2.8rem);
-  transform: translateX(-50%);
-  width: 6rem;
-  height: 6rem;
+  transform: translate(-50%, 16px);
+  width: clamp(4.4rem, 14vw, 5.8rem);
   border-radius: 0;
   background: transparent;
-  color: var(--white);
-  font-size: 4.5rem;
-  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
   cursor: pointer;
+  z-index: 2;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition-delay: 0.32s;
+}
+
+.scroll-down.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.scroll-down.is-hidden {
+  opacity: 0;
+  transform: translate(-50%, 16px);
+  pointer-events: none;
+}
+
+.scroll-down-icon {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+}
+
+.scroll-down.is-blinking .scroll-down-icon {
+  animation: scroll-down-blink 1.35s ease-in-out infinite;
+}
+
+@keyframes scroll-down-blink {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: translateY(6px);
+  }
 }
 
 .story-section,
@@ -718,6 +753,14 @@ textarea {
   background: linear-gradient(160deg, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.68));
 }
 
+.envelope-top-text,
+.envelope-bottom-text,
+.envelope-seal-button,
+.seal-callout {
+  backface-visibility: hidden;
+  will-change: transform, opacity, filter;
+}
+
 .envelope-top-text {
   position: absolute;
   top: calc(clamp(4.2rem, 12vh, 8rem) - 10px);
@@ -757,7 +800,7 @@ textarea {
   position: absolute;
   left: 50%;
   top: calc(var(--envelope-point-height) - clamp(2.5rem, 5vh, 3.5rem));
-  transform: translate(-50%, -50%);
+  translate: -50% -50%;
   width: clamp(8.9rem, 21vw, 11.2rem);
   border: 0;
   background: transparent;

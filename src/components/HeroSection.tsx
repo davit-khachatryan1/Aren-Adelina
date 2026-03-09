@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { siteConfig } from "../config/siteConfig";
 import { CountdownParts } from "../types/site";
 
@@ -10,6 +10,7 @@ interface HeroSectionProps {
 }
 
 const countdownLabels = ["Օր", "Ժամ", "Րոպե", "Վայրկյան"];
+const TOP_SCROLL_THRESHOLD = 24;
 
 export const HeroSection = ({
   sectionRef,
@@ -17,6 +18,26 @@ export const HeroSection = ({
   onScrollDown,
   heroReady
 }: HeroSectionProps) => {
+  const [isAtPageTop, setIsAtPageTop] = useState(true);
+
+  useEffect(() => {
+    const syncIsAtTop = () => {
+      setIsAtPageTop(window.scrollY <= TOP_SCROLL_THRESHOLD);
+    };
+
+    syncIsAtTop();
+    window.addEventListener("scroll", syncIsAtTop, { passive: true });
+    window.addEventListener("resize", syncIsAtTop);
+
+    return () => {
+      window.removeEventListener("scroll", syncIsAtTop);
+      window.removeEventListener("resize", syncIsAtTop);
+    };
+  }, []);
+
+  const isScrollIndicatorVisible = heroReady;
+  const isScrollIndicatorBlinking = heroReady && isAtPageTop;
+
   return (
     <section
       ref={sectionRef}
@@ -48,11 +69,18 @@ export const HeroSection = ({
 
       <button
         type="button"
-        className="scroll-down"
+        className={`scroll-down ${isScrollIndicatorVisible ? "is-visible" : "is-hidden"} ${
+          isScrollIndicatorBlinking ? "is-blinking" : ""
+        }`}
         onClick={onScrollDown}
         aria-label="Սահել ներքև"
       >
-        ˅
+        <img
+          src="/assets/downicon.png"
+          alt=""
+          aria-hidden="true"
+          className="scroll-down-icon"
+        />
       </button>
     </section>
   );
