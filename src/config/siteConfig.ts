@@ -93,7 +93,7 @@ export const siteConfig: WeddingConfig & {
     {
       id: "ceremony",
       title: "Պսակադրություն",
-      time: "16:00",
+      time: "15:30",
       venue: "Կեչառիսի վանական համալիր",
       address: "Խաչատուր Կեչառեցի փողոց",
       mapLinks: {
