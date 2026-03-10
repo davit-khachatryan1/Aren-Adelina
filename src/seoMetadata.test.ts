@@ -67,6 +67,9 @@ describe("SEO metadata", () => {
     const { document } = loadDocument();
     const robots = document.querySelector('meta[name="robots"]');
     const googlebot = document.querySelector('meta[name="googlebot"]');
+    const googleVerification = document.querySelector(
+      'meta[name="google-site-verification"]'
+    );
     const alternate = document.querySelector(
       'link[rel="alternate"][hreflang="hy-AM"]'
     );
@@ -77,6 +80,9 @@ describe("SEO metadata", () => {
 
     expect(robots?.getAttribute("content")).toContain("index,follow");
     expect(googlebot?.getAttribute("content")).toContain("index,follow");
+    expect(googleVerification?.getAttribute("content")).toBe(
+      "pfDEZSr_kkRj2yRC7Rz0X8OD1__Kc3J5DJ84IRpX3co"
+    );
     expect(alternate?.getAttribute("href")).toBe(expectedSeo.siteUrl);
     expect(parsedStructuredData["@context"]).toBe(expectedSeo.structuredData["@context"]);
     expect(parsedStructuredData["@type"]).toBe(expectedSeo.structuredData["@type"]);

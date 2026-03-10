@@ -17,4 +17,15 @@ describe("SEO crawl files", () => {
     expect(sitemapXml).toContain("<urlset");
     expect(sitemapXml).toContain("<loc>https://aren-adelina.vercel.app/</loc>");
   });
+
+  it("ships the Google Search Console HTML verification file at the site root", () => {
+    const verificationFile = readFileSync(
+      resolve(process.cwd(), "public/googlee506bd8751764674.html"),
+      "utf8"
+    );
+
+    expect(verificationFile.trim()).toBe(
+      "google-site-verification: googlee506bd8751764674.html"
+    );
+  });
 });
