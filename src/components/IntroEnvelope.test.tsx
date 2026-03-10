@@ -141,34 +141,23 @@ describe("IntroEnvelope", () => {
         expect(vars.vars.rotateY).toBeUndefined();
       });
 
-      expect(sealTweens).toHaveLength(2);
+      expect(sealTweens).toHaveLength(1);
       expect(sealTweens[0]).toEqual(
         expect.objectContaining({
           position: "copyOut",
           vars: expect.objectContaining({
-            scale: 0.88,
-            rotation: -4,
-            duration: 0,
-            ease: "power2.in"
-          })
-        })
-      );
-      expect(sealTweens[1]).toEqual(
-        expect.objectContaining({
-          position: "copyOut+=0.08",
-          vars: expect.objectContaining({
-            scale: 0.78,
-            rotation: 20,
-            rotateX: -26,
-            rotateY: 18,
-            yPercent: -12,
             autoAlpha: 0,
-            filter: "blur(8px) brightness(1.7)",
             duration: 0,
-            ease: "power3.inOut"
+            ease: "sine.out"
           })
         })
       );
+      expect(sealTweens[0]?.vars.scale).toBeUndefined();
+      expect(sealTweens[0]?.vars.rotation).toBeUndefined();
+      expect(sealTweens[0]?.vars.rotateX).toBeUndefined();
+      expect(sealTweens[0]?.vars.rotateY).toBeUndefined();
+      expect(sealTweens[0]?.vars.yPercent).toBeUndefined();
+      expect(sealTweens[0]?.vars.filter).toBeUndefined();
 
       expect(titleTween).toEqual(
         expect.objectContaining({

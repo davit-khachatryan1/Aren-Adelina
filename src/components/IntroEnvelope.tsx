@@ -85,14 +85,13 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
       return;
     }
 
-    const sealAnticipationDuration = isTestMode ? 0 : 0.12;
-    const sealRotateOutDuration = isTestMode ? 0 : 0.56;
-    const copyRotateOutDuration = isTestMode ? 0 : 0.48;
-    const topDepthDuration = isTestMode ? 0 : 0.22;
-    const topOpenDuration = isTestMode ? 0 : 0.98;
-    const bottomDuration = isTestMode ? 0 : 1.38;
-    const sideFadeDuration = isTestMode ? 0 : 1.32;
-    const photoRevealDuration = isTestMode ? 0 : 0.98;
+    const sealFadeOutDuration = isTestMode ? 0 : 2.24;
+    const copyRotateOutDuration = isTestMode ? 0 : 1.92;
+    const topDepthDuration = isTestMode ? 0 : 1.12;
+    const topOpenDuration = isTestMode ? 0 : 4.64;
+    const bottomDuration = isTestMode ? 0 : 4.8;
+    const sideFadeDuration = isTestMode ? 0 : 4.2;
+    const photoRevealDuration = isTestMode ? 0 : 3.2;
     const introFadeDuration = isTestMode ? 0 : 0.88;
 
     gsap.set([leftPartRef.current, rightPartRef.current], {
@@ -135,27 +134,11 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
       .to(
         sealRef.current,
         {
-          scale: 0.88,
-          rotation: -4,
-          duration: sealAnticipationDuration,
-          ease: "power2.in"
+          autoAlpha: 0,
+          duration: sealFadeOutDuration,
+          ease: "sine.out"
         },
         "copyOut"
-      )
-      .to(
-        sealRef.current,
-        {
-          scale: 0.78,
-          rotation: 20,
-          rotateX: -26,
-          rotateY: 18,
-          yPercent: -12,
-          autoAlpha: 0,
-          filter: "blur(8px) brightness(1.7)",
-          duration: sealRotateOutDuration,
-          ease: "power3.inOut"
-        },
-        "copyOut+=0.08"
       )
       .to(
         topTextRef.current,
@@ -197,7 +180,7 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
         },
         "copyOut+=0.30"
       )
-      .addLabel("open", "copyOut+=0.34")
+      .addLabel("open", "copyOut+=2.28")
       .to(
         topPartRef.current,
         {
@@ -228,7 +211,7 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
           yPercent: 100,
           transformOrigin: "50% 0%",
           duration: bottomDuration,
-          ease: "power2.out"
+          ease: "power1.inOut"
         },
         "open+=0.16"
       )
@@ -237,7 +220,7 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
         {
           opacity: 0,
           duration: sideFadeDuration,
-          ease: "power1.out"
+          ease: "power1.inOut"
         },
         "open+=0.22"
       )
@@ -246,7 +229,7 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
         {
           opacity: 0,
           duration: sideFadeDuration,
-          ease: "power1.out"
+          ease: "power1.inOut"
         },
         "open+=0.22"
       )
@@ -258,7 +241,7 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
         },
         "open+=0.42"
       )
-      .call(triggerRevealReady, undefined, "open+=0.62")
+      .call(triggerRevealReady, undefined, "open+=2.72")
       .to(
         rootRef.current,
         {
@@ -267,7 +250,7 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
           delay: 0.18,
           ease: "power2.out"
         },
-        "open+=1.72"
+        "open+=5.2"
       );
 
     if (isTestMode) {
