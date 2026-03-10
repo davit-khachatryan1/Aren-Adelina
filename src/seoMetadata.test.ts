@@ -23,11 +23,17 @@ describe("SEO metadata", () => {
   it("keeps one consistent title and canonical URL", () => {
     const { document, html } = loadDocument();
     const canonical = document.querySelector('link[rel="canonical"]');
+    const favicon = document.querySelector('link[rel="icon"][href="/assets/favicon.ico"]');
+    const appleTouchIcon = document.querySelector(
+      'link[rel="apple-touch-icon"][href="/assets/apple-touch-icon.png"]'
+    );
     const titles = document.querySelectorAll("title");
 
     expect(titles).toHaveLength(1);
     expect(document.title).toBe(expectedSeo.title);
     expect(canonical?.getAttribute("href")).toBe(expectedSeo.siteUrl);
+    expect(favicon).not.toBeNull();
+    expect(appleTouchIcon).not.toBeNull();
     expect(html).not.toContain("Հարսանեկան Հրավեր");
     expect(html).not.toContain("__SEO_");
     expect(html).not.toContain("__SITE_");
@@ -115,12 +121,14 @@ describe("SEO metadata", () => {
     const ogUrl = document.querySelector('meta[property="og:url"]');
     const ogImage = document.querySelector('meta[property="og:image"]');
     const twitterUrl = document.querySelector('meta[name="twitter:url"]');
+    const favicon = document.querySelector('link[rel="icon"][href="/assets/favicon.ico"]');
 
     expect(canonical?.getAttribute("href")).toBe(expectedShareSeo.canonicalUrl);
     expect(robots?.getAttribute("content")).toContain("noindex,nofollow");
     expect(ogUrl?.getAttribute("content")).toBe(expectedShareSeo.pageUrl);
     expect(twitterUrl?.getAttribute("content")).toBe(expectedShareSeo.pageUrl);
     expect(ogImage?.getAttribute("content")).toBe(expectedShareSeo.imageUrl);
+    expect(favicon).not.toBeNull();
     expect(html).not.toContain("__SEO_");
     expect(html).not.toContain("__PAGE_");
   });

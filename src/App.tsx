@@ -11,6 +11,12 @@ import { useAudioController } from "./hooks/useAudioController";
 import { useCountdown } from "./hooks/useCountdown";
 
 const validatedConfig = assertWeddingConfig(siteConfig);
+const sectionLinks = [
+  { id: "story", label: "Պատմություն" },
+  { id: "schedule", label: "Օրակարգ" },
+  { id: "rsvp", label: "RSVP" },
+  { id: "info", label: "Կարևոր" }
+];
 
 const scrollToSection = (id: string): void => {
   const element = document.getElementById(id);
@@ -78,6 +84,8 @@ const App = () => {
           void audio.toggle();
         }}
         onRsvpClick={() => scrollToSection("rsvp")}
+        onSectionClick={scrollToSection}
+        sectionLinks={sectionLinks}
         ctaLabel={validatedConfig.ctaLabel}
       />
 
