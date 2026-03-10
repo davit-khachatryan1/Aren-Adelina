@@ -30,6 +30,12 @@ After deploying, verify the shared root URL `https://aren-adelina.vercel.app/`:
 4. Re-test Telegram after the re-scrape/crawl cache refresh.
 5. If Instagram DMs still omit the card while Meta’s debugger is green, treat that as Instagram platform behavior rather than a site defect.
 
+If chat apps have already cached a bad preview for the homepage, share the dedicated cache-busting URL instead:
+
+- `https://aren-adelina.vercel.app/share.html`
+
+That page keeps the homepage canonical for SEO, but gives social platforms a fresh page URL and a fresh OG image URL to scrape.
+
 ## Google indexing checklist
 
 For Google, the current production site already exposes the core crawl signals:

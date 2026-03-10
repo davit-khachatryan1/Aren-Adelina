@@ -43,6 +43,9 @@ export const siteConfig: WeddingConfig & {
       "Սիրով հրավիրում ենք ձեզ Արենի և Ադելինայի հարսանիքին՝ կիսելու մեզ հետ այս հատուկ օրը։",
     imageUrl: "https://aren-adelina.vercel.app/assets/social/og-card.jpg",
     imageAlt: "Արեն և Ադելինա",
+    shareUrl: "https://aren-adelina.vercel.app/share.html",
+    shareImageUrl:
+      "https://aren-adelina.vercel.app/assets/social/og-card.jpg?v=share-20260310-1",
   },
   coupleNames: "Արեն և Ադելինա",
   weddingDateISO: "2026-04-18T16:00:00+04:00",
@@ -176,6 +179,20 @@ export const assertWeddingConfig = (input: WeddingConfig): WeddingConfig => {
     new URL(input.seo.imageUrl);
   } catch {
     throw new Error("seo.imageUrl must be an absolute URL");
+  }
+  if (input.seo.shareUrl) {
+    try {
+      new URL(input.seo.shareUrl);
+    } catch {
+      throw new Error("seo.shareUrl must be an absolute URL");
+    }
+  }
+  if (input.seo.shareImageUrl) {
+    try {
+      new URL(input.seo.shareImageUrl);
+    } catch {
+      throw new Error("seo.shareImageUrl must be an absolute URL");
+    }
   }
   if (!input.coupleNames.trim()) {
     throw new Error("coupleNames is required");

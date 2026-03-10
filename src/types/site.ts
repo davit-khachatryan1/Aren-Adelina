@@ -28,6 +28,8 @@ export interface SeoMetadata {
   description: string;
   imageUrl: string;
   imageAlt: string;
+  shareUrl?: string;
+  shareImageUrl?: string;
 }
 
 export interface WeddingConfig {

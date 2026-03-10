@@ -50,4 +50,16 @@ describe("siteConfig", () => {
       })
     ).toThrowError(/seo.imageUrl must be an absolute URL/);
   });
+
+  it("throws when share URL is not absolute", () => {
+    expect(() =>
+      assertWeddingConfig({
+        ...siteConfig,
+        seo: {
+          ...siteConfig.seo,
+          shareUrl: "/share.html"
+        }
+      })
+    ).toThrowError(/seo.shareUrl must be an absolute URL/);
+  });
 });

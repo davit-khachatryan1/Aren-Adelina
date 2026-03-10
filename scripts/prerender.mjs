@@ -3,8 +3,11 @@ import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const rootDir = process.cwd();
-const distHtmlPath = resolve(rootDir, "dist/index.html");
 const ssrOutDir = resolve(rootDir, ".prerender");
+const distHtmlPaths = [
+  resolve(rootDir, "dist/index.html"),
+  resolve(rootDir, "dist/share.html"),
+];
 
 const findServerEntry = (directory) => {
   for (const entry of readdirSync(directory)) {
@@ -27,7 +30,6 @@ const findServerEntry = (directory) => {
   return null;
 };
 
-const html = readFileSync(distHtmlPath, "utf8");
 const serverEntryPath = findServerEntry(ssrOutDir);
 
 if (!serverEntryPath) {
@@ -41,10 +43,15 @@ if (typeof render !== "function") {
 }
 
 const appHtml = render();
-const prerenderedHtml = html.replace(
-  '<div id="root"></div>',
-  `<div id="root">${appHtml}</div>`
-);
 
-writeFileSync(distHtmlPath, prerenderedHtml);
+for (const distHtmlPath of distHtmlPaths) {
+  const html = readFileSync(distHtmlPath, "utf8");
+  const prerenderedHtml = html.replace(
+    '<div id="root"></div>',
+    `<div id="root">${appHtml}</div>`
+  );
+
+  writeFileSync(distHtmlPath, prerenderedHtml);
+}
+
 rmSync(ssrOutDir, { recursive: true, force: true });

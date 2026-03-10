@@ -4,15 +4,16 @@ import { describe, expect, it } from "vitest";
 import { siteConfig } from "./config/siteConfig";
 import { applyIndexSeoMetadata, buildSeoMetadata } from "./config/seo";
 
-const expectedSeo = buildSeoMetadata(siteConfig);
+const expectedSeo = buildSeoMetadata(siteConfig, "index");
+const expectedShareSeo = buildSeoMetadata(siteConfig, "share");
 const expectedAssetPath = resolve(
   process.cwd(),
   "public/assets/social/og-card.jpg"
 );
 
-const loadDocument = () => {
-  const template = readFileSync(resolve(process.cwd(), "index.html"), "utf8");
-  const html = applyIndexSeoMetadata(template, siteConfig);
+const loadDocument = (filename = "index.html", target: "index" | "share" = "index") => {
+  const template = readFileSync(resolve(process.cwd(), filename), "utf8");
+  const html = applyIndexSeoMetadata(template, siteConfig, target);
   const document = new DOMParser().parseFromString(html, "text/html");
 
   return { document, html };
@@ -105,6 +106,23 @@ describe("SEO metadata", () => {
     expect(twitterTitle?.getAttribute("content")).toBe(expectedSeo.title);
     expect(twitterDescription?.getAttribute("content")).toBe(expectedSeo.description);
     expect(html).not.toContain("și");
+  });
+
+  it("ships a dedicated share page with a fresh share URL and image URL", () => {
+    const { document, html } = loadDocument("share.html", "share");
+    const canonical = document.querySelector('link[rel="canonical"]');
+    const robots = document.querySelector('meta[name="robots"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    const twitterUrl = document.querySelector('meta[name="twitter:url"]');
+
+    expect(canonical?.getAttribute("href")).toBe(expectedShareSeo.canonicalUrl);
+    expect(robots?.getAttribute("content")).toContain("noindex,nofollow");
+    expect(ogUrl?.getAttribute("content")).toBe(expectedShareSeo.pageUrl);
+    expect(twitterUrl?.getAttribute("content")).toBe(expectedShareSeo.pageUrl);
+    expect(ogImage?.getAttribute("content")).toBe(expectedShareSeo.imageUrl);
+    expect(html).not.toContain("__SEO_");
+    expect(html).not.toContain("__PAGE_");
   });
 
   it("ships a local social card asset for the metadata image", () => {
