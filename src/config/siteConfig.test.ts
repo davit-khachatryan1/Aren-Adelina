@@ -57,7 +57,7 @@ describe("siteConfig", () => {
         ...siteConfig,
         seo: {
           ...siteConfig.seo,
-          shareUrl: "/share.html"
+          shareUrl: "/invite/"
         }
       })
     ).toThrowError(/seo.shareUrl must be an absolute URL/);

@@ -43,7 +43,7 @@ export const siteConfig: WeddingConfig & {
       "Սիրով հրավիրում ենք ձեզ Արենի և Ադելինայի հարսանիքին՝ կիսելու մեզ հետ այս հատուկ օրը։",
     imageUrl: "https://aren-adelina.vercel.app/assets/social/og-card.jpg",
     imageAlt: "Արեն և Ադելինա",
-    shareUrl: "https://aren-adelina.vercel.app/share.html",
+    shareUrl: "https://aren-adelina.vercel.app/invite/",
     shareImageUrl:
       "https://aren-adelina.vercel.app/assets/social/og-card.jpg?v=share-20260310-1",
   },

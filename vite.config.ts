@@ -8,7 +8,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        share: resolve(__dirname, "share.html"),
+        invite: resolve(__dirname, "invite/index.html"),
       },
     },
   },
@@ -18,7 +18,7 @@ export default defineConfig({
       name: "site-seo-metadata",
       transformIndexHtml(html, context) {
         const target =
-          context.filename?.endsWith("share.html") ? "share" : "index";
+          context.filename?.endsWith("invite/index.html") ? "share" : "index";
 
         return applyIndexSeoMetadata(html, undefined, target);
       },

@@ -32,7 +32,7 @@ After deploying, verify the shared root URL `https://aren-adelina.vercel.app/`:
 
 If chat apps have already cached a bad preview for the homepage, share the dedicated cache-busting URL instead:
 
-- `https://aren-adelina.vercel.app/share.html`
+- `https://aren-adelina.vercel.app/invite/`
 
 That page keeps the homepage canonical for SEO, but gives social platforms a fresh page URL and a fresh OG image URL to scrape.
 

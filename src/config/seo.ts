@@ -35,7 +35,7 @@ export const buildSeoMetadata = (
   const siteUrl = new URL(config.siteUrl).toString();
   const pageUrl =
     target === "share"
-      ? new URL(config.seo.shareUrl ?? "share.html", siteUrl).toString()
+      ? new URL(config.seo.shareUrl ?? "invite/", siteUrl).toString()
       : siteUrl;
   const imageUrl =
     target === "share" ? config.seo.shareImageUrl ?? config.seo.imageUrl : config.seo.imageUrl;

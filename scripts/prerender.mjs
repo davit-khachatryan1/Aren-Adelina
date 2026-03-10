@@ -6,7 +6,7 @@ const rootDir = process.cwd();
 const ssrOutDir = resolve(rootDir, ".prerender");
 const distHtmlPaths = [
   resolve(rootDir, "dist/index.html"),
-  resolve(rootDir, "dist/share.html"),
+  resolve(rootDir, "dist/invite/index.html"),
 ];
 
 const findServerEntry = (directory) => {

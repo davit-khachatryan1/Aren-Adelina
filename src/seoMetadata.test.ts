@@ -114,8 +114,8 @@ describe("SEO metadata", () => {
     expect(html).not.toContain("și");
   });
 
-  it("ships a dedicated share page with a fresh share URL and image URL", () => {
-    const { document, html } = loadDocument("share.html", "share");
+  it("ships a dedicated invite page with a fresh share URL and image URL", () => {
+    const { document, html } = loadDocument("invite/index.html", "share");
     const canonical = document.querySelector('link[rel="canonical"]');
     const robots = document.querySelector('meta[name="robots"]');
     const ogUrl = document.querySelector('meta[property="og:url"]');
