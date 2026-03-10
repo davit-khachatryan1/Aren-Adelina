@@ -29,7 +29,9 @@ describe("IntroEnvelope", () => {
         return content.includes("Բացել") && content.includes("այստեղ");
       })
     ).toBeInTheDocument();
-    expect(screen.getByTestId("open-envelope")).toBeInTheDocument();
+    const sealButton = screen.getByTestId("open-envelope");
+    expect(sealButton).toBeInTheDocument();
+    expect(sealButton.closest(".envelope-seal-anchor")).not.toBeNull();
     expect(container.querySelector(".top-content")).not.toBeInTheDocument();
     expect(container.querySelector(".seal-button-text")).not.toBeInTheDocument();
 

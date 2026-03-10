@@ -321,19 +321,21 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
             {siteConfig.intro.title}
           </p>
 
-          <button
-            ref={sealRef}
-            type="button"
-            className="envelope-seal-button"
-            onClick={handleOpen}
-            data-testid="open-envelope"
-          >
-            <img
-              alt="Envelope button"
-              className="envelope-seal-image"
-              src="/assets/images/red_seal.png"
-            />
-          </button>
+          <div className="envelope-seal-anchor">
+            <button
+              ref={sealRef}
+              type="button"
+              className="envelope-seal-button"
+              onClick={handleOpen}
+              data-testid="open-envelope"
+            >
+              <img
+                alt="Envelope button"
+                className="envelope-seal-image"
+                src="/assets/images/red_seal.png"
+              />
+            </button>
+          </div>
 
           <div ref={sealCalloutRef} className="seal-callout" aria-hidden="true">
             <p className="seal-callout-text">
