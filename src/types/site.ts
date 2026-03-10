@@ -23,8 +23,17 @@ export interface StoryImageSpec {
   layer?: "primary" | "secondary";
 }
 
+export interface SeoMetadata {
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageAlt: string;
+}
+
 export interface WeddingConfig {
   locale: "hy";
+  siteUrl: string;
+  seo: SeoMetadata;
   coupleNames: string;
   weddingDateISO: string;
   heroImage: string;

@@ -36,6 +36,14 @@ export const siteConfig: WeddingConfig & {
   };
 } = {
   locale: "hy",
+  siteUrl: "https://aren-adelina.vercel.app/",
+  seo: {
+    title: "Արենի և Ադելինայի հարսանեկան հրավերք",
+    description:
+      "Սիրով հրավիրում ենք ձեզ Արենի և Ադելինայի հարսանիքին՝ կիսելու մեզ հետ այս հատուկ օրը։",
+    imageUrl: "https://aren-adelina.vercel.app/assets/social/og-card.jpg",
+    imageAlt: "Արեն և Ադելինա",
+  },
   coupleNames: "Արեն և Ադելինա",
   weddingDateISO: "2026-04-18T16:00:00+04:00",
   weddingDateLabel: "Ապրիլ 18, 2026",
@@ -75,7 +83,7 @@ export const siteConfig: WeddingConfig & {
     },
   ],
   musicFile: "/assets/audio/talking-to-the-moon.mp3",
-  rsvpEndpoint: import.meta.env.VITE_RSVP_ENDPOINT ?? "/rsvp",
+  rsvpEndpoint: import.meta.env?.VITE_RSVP_ENDPOINT ?? "/rsvp",
   ctaLabel: "Պատասխանել",
   intro: {
     title: "Դուք հրավիրված եք մեր հարսանիքին",
@@ -144,6 +152,31 @@ export const siteConfig: WeddingConfig & {
 };
 
 export const assertWeddingConfig = (input: WeddingConfig): WeddingConfig => {
+  if (!input.siteUrl.trim()) {
+    throw new Error("siteUrl is required");
+  }
+  try {
+    new URL(input.siteUrl);
+  } catch {
+    throw new Error("siteUrl must be an absolute URL");
+  }
+  if (!input.seo.title.trim()) {
+    throw new Error("seo.title is required");
+  }
+  if (!input.seo.description.trim()) {
+    throw new Error("seo.description is required");
+  }
+  if (!input.seo.imageAlt.trim()) {
+    throw new Error("seo.imageAlt is required");
+  }
+  if (!input.seo.imageUrl.trim()) {
+    throw new Error("seo.imageUrl is required");
+  }
+  try {
+    new URL(input.seo.imageUrl);
+  } catch {
+    throw new Error("seo.imageUrl must be an absolute URL");
+  }
   if (!input.coupleNames.trim()) {
     throw new Error("coupleNames is required");
   }

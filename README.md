@@ -16,6 +16,20 @@ npm run build
 npm test
 ```
 
+## Social preview validation
+
+After deploying, verify the shared root URL `https://aren-adelina.vercel.app/`:
+
+1. Run the [Meta Sharing Debugger](https://developers.facebook.com/tools/debug/) and force a re-scrape.
+2. Verify the live HTML and image manually:
+   `curl -I https://aren-adelina.vercel.app/`
+   `curl -I https://aren-adelina.vercel.app/assets/social/og-card.jpg`
+3. Verify crawler user agents receive the same HTML:
+   `curl -A 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)' -L https://aren-adelina.vercel.app/`
+   `curl -A 'TelegramBot (like TwitterBot)' -L https://aren-adelina.vercel.app/`
+4. Re-test Telegram after the re-scrape/crawl cache refresh.
+5. If Instagram DMs still omit the card while Meta’s debugger is green, treat that as Instagram platform behavior rather than a site defect.
+
 ## RSVP endpoint
 
 Set Google Apps Script/Webhook URL via environment variable:

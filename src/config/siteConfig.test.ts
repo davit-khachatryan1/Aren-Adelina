@@ -29,4 +29,25 @@ describe("siteConfig", () => {
       })
     ).toThrowError(/Each story image must include src/);
   });
+
+  it("throws when site URL is missing", () => {
+    expect(() =>
+      assertWeddingConfig({
+        ...siteConfig,
+        siteUrl: " "
+      })
+    ).toThrowError(/siteUrl is required/);
+  });
+
+  it("throws when SEO image URL is not absolute", () => {
+    expect(() =>
+      assertWeddingConfig({
+        ...siteConfig,
+        seo: {
+          ...siteConfig.seo,
+          imageUrl: "/assets/social/og-card.jpg"
+        }
+      })
+    ).toThrowError(/seo.imageUrl must be an absolute URL/);
+  });
 });
