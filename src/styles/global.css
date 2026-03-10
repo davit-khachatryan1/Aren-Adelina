@@ -62,7 +62,7 @@ textarea {
   width: 100%;
   padding: 0 0.8rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 1rem;
   pointer-events: none;
@@ -86,15 +86,6 @@ textarea {
   pointer-events: auto;
 }
 
-.section-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  align-items: center;
-  max-width: min(100%, 32rem);
-}
-
-.section-nav-link,
 .cta-pill,
 .audio-control,
 .map-button,
@@ -102,21 +93,6 @@ textarea {
 .scroll-down {
   border: 0;
   border-radius: 999px;
-}
-
-.section-nav-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.58rem 0.88rem;
-  background: rgba(255, 255, 255, 0.78);
-  color: var(--text-main);
-  font-size: 0.84rem;
-  font-weight: 600;
-  line-height: 1;
-  text-decoration: none;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(10px);
 }
 
 .cta-pill {
@@ -152,7 +128,6 @@ textarea {
   cursor: pointer;
 }
 
-.section-nav-link:focus-visible,
 .cta-pill:focus-visible,
 .audio-control:focus-visible,
 .map-button:focus-visible,
@@ -492,15 +467,6 @@ textarea {
 @media (max-width: 1023px) {
   .top-controls {
     align-items: flex-start;
-  }
-
-  .section-nav {
-    max-width: calc(100% - 9.25rem);
-  }
-
-  .section-nav-link {
-    padding: 0.52rem 0.74rem;
-    font-size: 0.77rem;
   }
 
   .story-gallery {
