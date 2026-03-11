@@ -62,7 +62,6 @@ const App = () => {
 
   const handleIntroOpened = () => {
     setIntroComplete(true);
-    void audio.unlockAndMaybePlay();
   };
 
   return (
@@ -82,7 +81,13 @@ const App = () => {
       />
 
       {!introComplete ? (
-        <IntroEnvelope onRevealReady={() => setHeroReady(true)} onOpened={handleIntroOpened} />
+        <IntroEnvelope
+          onOpenStart={() => {
+            void audio.unlockAndMaybePlay();
+          }}
+          onRevealReady={() => setHeroReady(true)}
+          onOpened={handleIntroOpened}
+        />
       ) : null}
 
       <main id="main-content">

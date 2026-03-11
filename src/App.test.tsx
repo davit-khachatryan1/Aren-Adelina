@@ -57,7 +57,7 @@ describe("App integration", () => {
     expect(scrollSpy.mock.instances[0]).toBe(storySection);
   });
 
-  it("does not play audio before interaction and starts after opening envelope", async () => {
+  it("does not play audio before interaction and starts after the seal click", async () => {
     const user = userEvent.setup();
     const playSpy = vi.spyOn(Audio.prototype, "play");
 

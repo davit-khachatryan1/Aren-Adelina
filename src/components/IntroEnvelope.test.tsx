@@ -42,19 +42,30 @@ describe("IntroEnvelope", () => {
     expect(container.querySelectorAll(".envelope-side-part img.texture-image")).toHaveLength(0);
   });
 
-  it("opens once and calls onRevealReady before onOpened", async () => {
+  it("opens once and calls onOpenStart before onRevealReady and onOpened", async () => {
     const user = userEvent.setup();
+    const onOpenStart = vi.fn();
     const onRevealReady = vi.fn();
     const onOpened = vi.fn();
 
-    render(<IntroEnvelope onRevealReady={onRevealReady} onOpened={onOpened} />);
+    render(
+      <IntroEnvelope
+        onOpenStart={onOpenStart}
+        onRevealReady={onRevealReady}
+        onOpened={onOpened}
+      />
+    );
 
     const button = screen.getByTestId("open-envelope");
     await user.click(button);
     await user.click(button);
 
+    expect(onOpenStart).toHaveBeenCalledTimes(1);
     expect(onRevealReady).toHaveBeenCalledTimes(1);
     expect(onOpened).toHaveBeenCalledTimes(1);
+    expect(onOpenStart.mock.invocationCallOrder[0]).toBeLessThan(
+      onRevealReady.mock.invocationCallOrder[0]
+    );
     expect(onRevealReady.mock.invocationCallOrder[0]).toBeLessThan(
       onOpened.mock.invocationCallOrder[0]
     );

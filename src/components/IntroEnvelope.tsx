@@ -4,10 +4,15 @@ import { siteConfig } from "../config/siteConfig";
 
 interface IntroEnvelopeProps {
   onOpened: () => void;
+  onOpenStart?: () => void;
   onRevealReady?: () => void;
 }
 
-export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) => {
+export const IntroEnvelope = ({
+  onOpened,
+  onOpenStart,
+  onRevealReady
+}: IntroEnvelopeProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
   const topPartRef = useRef<HTMLDivElement>(null);
@@ -67,6 +72,7 @@ export const IntroEnvelope = ({ onOpened, onRevealReady }: IntroEnvelopeProps) =
     }
 
     setIsOpened(true);
+    onOpenStart?.();
     revealTriggeredRef.current = false;
     pulseRef.current?.kill();
     pulseRef.current = null;
