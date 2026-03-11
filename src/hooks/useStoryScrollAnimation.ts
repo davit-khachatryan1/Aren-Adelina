@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from "react";
 import gsap from "gsap";
 
 export type StoryScrollMode =
-  | "desktop-scroll"
+  | "desktop-reveal"
   | "mobile-reveal"
   | "reduced-motion";
 
@@ -10,42 +10,27 @@ interface StoryScrollAnimationOptions {
   sectionRef: RefObject<HTMLElement>;
   galleryRef: RefObject<HTMLElement>;
   textRef: RefObject<HTMLElement>;
-  primaryCardRef: RefObject<HTMLElement>;
-  secondaryCardRef: RefObject<HTMLElement>;
 }
 
 const DESKTOP_MIN_WIDTH = 1024;
-let scrollTriggerRegistered = false;
-
-const ensureScrollTriggerRegistered = async (): Promise<void> => {
-  if (typeof window === "undefined" || scrollTriggerRegistered) {
-    return;
-  }
-
-  const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-  gsap.registerPlugin(ScrollTrigger);
-  scrollTriggerRegistered = true;
-};
 
 export const useStoryScrollAnimation = ({
   sectionRef,
   galleryRef,
-  textRef,
-  primaryCardRef,
-  secondaryCardRef
+  textRef
 }: StoryScrollAnimationOptions): StoryScrollMode => {
   const [mode, setMode] = useState<StoryScrollMode>("mobile-reveal");
 
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
-    let context: gsap.Context | null = null;
     let isCancelled = false;
 
     const section = sectionRef.current;
     const gallery = galleryRef.current;
     const text = textRef.current;
-    const primary = primaryCardRef.current;
-    const secondary = secondaryCardRef.current;
+    const desktopCards = Array.from(
+      gallery?.querySelectorAll<HTMLElement>(".story-card-desktop") ?? []
+    );
 
     if (!section || !gallery || !text) {
       return;
@@ -58,6 +43,7 @@ export const useStoryScrollAnimation = ({
     const isTestMode = import.meta.env.MODE === "test";
 
     const mobileNodes = [text, gallery];
+    const desktopNodes = desktopCards.length > 0 ? [text, ...desktopCards] : [text, gallery];
 
     const initAnimation = async () => {
       if (prefersReducedMotion) {
@@ -67,7 +53,7 @@ export const useStoryScrollAnimation = ({
         }
 
         gsap.fromTo(
-          mobileNodes,
+          isDesktop ? desktopNodes : mobileNodes,
           {
             opacity: 0,
             y: 12
@@ -84,80 +70,51 @@ export const useStoryScrollAnimation = ({
       }
 
       if (isDesktop) {
-        if (!primary || !secondary) {
-          return;
-        }
-
-        setMode("desktop-scroll");
+        setMode("desktop-reveal");
         if (isTestMode) {
           return;
         }
 
-        await ensureScrollTriggerRegistered();
-        if (isCancelled) {
-          return;
-        }
+        gsap.set(text, { opacity: 0, y: 18 });
+        gsap.set(desktopCards, { opacity: 0, y: 34, scale: 0.98 });
 
-        context = gsap.context(() => {
-          gsap.set(text, { opacity: 0, x: -36, y: 12 });
-          gsap.set(primary, { opacity: 0, y: 58, x: -18, scale: 0.93 });
-          gsap.set(secondary, { opacity: 0, y: 28, x: 56, scale: 0.9 });
-
-          gsap
-            .timeline({
-              scrollTrigger: {
-                trigger: section,
-                start: "top 82%",
-                end: "top 46%",
-                scrub: 0.45,
-                invalidateOnRefresh: true
+        observer = new IntersectionObserver(
+          entries => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) {
+                return;
               }
-            })
-            .to(text, {
-              opacity: 1,
-              x: 0,
-              y: 0,
-              duration: 0.34
-            })
-            .to(
-              primary,
-              {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                scale: 1,
-                duration: 0.33
-              },
-              "<+0.02"
-            )
-            .to(
-              secondary,
-              {
-                opacity: 1,
-                y: 0,
-                x: 0,
-                scale: 1,
-                duration: 0.33
-              },
-              "<+0.06"
-            );
 
-          gsap
-            .timeline({
-              defaults: {
-                ease: "none"
-              },
-              scrollTrigger: {
-                trigger: section,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.6,
-                invalidateOnRefresh: true
-              }
-            })
-            .fromTo(primary, { y: 0, x: 0 }, { y: -44, x: -24, duration: 1 })
-            .fromTo(secondary, { y: 0, x: 0 }, { y: 34, x: 24, duration: 1 }, "<");
-        }, section);
+              gsap
+                .timeline()
+                .to(text, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.48,
+                  ease: "power2.out"
+                })
+                .to(
+                  desktopCards,
+                  {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.72,
+                    stagger: 0.08,
+                    ease: "power2.out"
+                  },
+                  "<+0.08"
+                );
+
+              observer?.disconnect();
+            });
+          },
+          {
+            threshold: 0.2
+          }
+        );
+
+        observer.observe(section);
         return;
       }
 
@@ -199,9 +156,8 @@ export const useStoryScrollAnimation = ({
     return () => {
       isCancelled = true;
       observer?.disconnect();
-      context?.revert();
     };
-  }, [sectionRef, galleryRef, textRef, primaryCardRef, secondaryCardRef]);
+  }, [sectionRef, galleryRef, textRef]);
 
   return mode;
 };

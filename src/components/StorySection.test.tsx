@@ -25,7 +25,7 @@ describe("StorySection animation mode", () => {
     vi.useRealTimers();
   });
 
-  it("sets desktop scroll mode for wide screens", async () => {
+  it("sets desktop reveal mode for wide screens and renders all story images", async () => {
     setViewportWidth(1400);
     dispatchResize();
 
@@ -34,11 +34,17 @@ describe("StorySection animation mode", () => {
     await waitFor(() => {
       expect(screen.getByTestId("story-section")).toHaveAttribute(
         "data-scroll-mode",
-        "desktop-scroll"
+        "desktop-reveal"
       );
     });
 
+    const desktopCards = screen
+      .getByTestId("story-gallery")
+      .querySelectorAll(".story-card-desktop");
+
+    expect(desktopCards).toHaveLength(siteConfig.storyImages.length);
     expect(screen.queryByTestId("story-slider")).not.toBeInTheDocument();
+    expect(screen.queryAllByRole("button", { name: /Սահել լուսանկար/i })).toHaveLength(0);
   });
 
   it("uses mobile reveal mode for small screens", async () => {

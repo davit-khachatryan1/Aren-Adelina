@@ -14,33 +14,20 @@ export const StorySection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const primaryRef = useRef<HTMLDivElement>(null);
-  const secondaryRef = useRef<HTMLDivElement>(null);
   const autoplayRef = useRef<number | null>(null);
   const touchStartXRef = useRef<number | null>(null);
   const touchDeltaXRef = useRef(0);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [isMobileSlider, setIsMobileSlider] = useState(false);
 
-  const primaryImage = useMemo(
-    () =>
-      siteConfig.storyImages.find(image => image.layer === "primary") ??
-      siteConfig.storyImages[0] ??
-      fallbackStoryImage,
+  const storyImages = useMemo(
+    () => (siteConfig.storyImages.length > 0 ? siteConfig.storyImages : [fallbackStoryImage]),
     []
   );
 
-  const secondaryImage = useMemo(
-    () =>
-      siteConfig.storyImages.find(image => image.layer === "secondary") ??
-      siteConfig.storyImages[1] ??
-      primaryImage,
-    [primaryImage]
-  );
-
   const sliderImages = useMemo(
-    () => (siteConfig.storyImages.length >= 2 ? siteConfig.storyImages : [primaryImage, secondaryImage]),
-    [primaryImage, secondaryImage]
+    () => (storyImages.length >= 2 ? storyImages : [storyImages[0], storyImages[0]]),
+    [storyImages]
   );
 
   const storySlides = useMemo(
@@ -100,10 +87,17 @@ export const StorySection = () => {
   const mode = useStoryScrollAnimation({
     sectionRef,
     galleryRef,
-    textRef,
-    primaryCardRef: primaryRef,
-    secondaryCardRef: secondaryRef
+    textRef
   });
+
+  const desktopCardVariants = [
+    "hero",
+    "accent",
+    "top-right",
+    "bottom-left",
+    "bottom-right",
+    "ribbon"
+  ] as const;
 
   const goToSlide = (index: number) => {
     setActiveSlideIndex(index);
@@ -150,34 +144,28 @@ export const StorySection = () => {
       data-scroll-mode={mode}
       data-testid="story-section"
     >
+      <div ref={textRef} className="story-text">
+        <h2>{siteConfig.story.title}</h2>
+        <p>{siteConfig.story.description}</p>
+      </div>
+
       <div ref={galleryRef} className="story-gallery" data-testid="story-gallery">
         {!isMobileSlider ? (
           <div className="story-gallery-desktop">
-            <figure
-              ref={primaryRef}
-              className="story-card story-card-primary"
-              style={
-                {
-                  "--story-mobile-pos": primaryImage.mobileObjectPosition,
-                  "--story-desktop-pos": primaryImage.desktopObjectPosition
-                } as CSSProperties
-              }
-            >
-              <img src={primaryImage.src} alt={primaryImage.alt} loading="lazy" />
-            </figure>
-
-            <figure
-              ref={secondaryRef}
-              className="story-card story-card-secondary"
-              style={
-                {
-                  "--story-mobile-pos": secondaryImage.mobileObjectPosition,
-                  "--story-desktop-pos": secondaryImage.desktopObjectPosition
-                } as CSSProperties
-              }
-            >
-              <img src={secondaryImage.src} alt={secondaryImage.alt} loading="lazy" />
-            </figure>
+            {storyImages.map((image, index) => (
+              <figure
+                key={`${image.src}-${index}`}
+                className="story-card story-card-desktop"
+                data-variant={desktopCardVariants[index % desktopCardVariants.length]}
+                style={
+                  {
+                    "--story-desktop-pos": image.desktopObjectPosition
+                  } as CSSProperties
+                }
+              >
+                <img src={image.src} alt={image.alt} loading="lazy" />
+              </figure>
+            ))}
           </div>
         ) : (
           <div
@@ -252,11 +240,6 @@ export const StorySection = () => {
             </div>
           </div>
         )}
-      </div>
-
-      <div ref={textRef} className="story-text">
-        <h2>{siteConfig.story.title}</h2>
-        <p>{siteConfig.story.description}</p>
       </div>
     </section>
   );
