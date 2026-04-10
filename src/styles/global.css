@@ -653,6 +653,7 @@ textarea {
   background: #111;
   color: #fff;
   text-decoration: none;
+  border-radius: 8px;
 }
 
 .rsvp-section {
