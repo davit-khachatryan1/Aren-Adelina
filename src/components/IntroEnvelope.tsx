@@ -2,6 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { siteConfig } from "../config/siteConfig";
 
+/** Matches `global.css` envelope layout at `@media (max-width: 834px)`. */
+const MOBILE_ENVELOPE_MEDIA = "(max-width: 834px)";
+/** 1.2× playback = ~20% shorter real time. */
+const MOBILE_ENVELOPE_TIME_SCALE = 1.2;
+
 interface IntroEnvelopeProps {
   onOpened: () => void;
   onOpenStart?: () => void;
@@ -134,6 +139,15 @@ export const IntroEnvelope = ({
       onComplete: onOpened
     });
     timelineRef.current = timeline;
+
+    const isMobileEnvelope =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia(MOBILE_ENVELOPE_MEDIA).matches;
+
+    if (isMobileEnvelope && !isTestMode) {
+      timeline.timeScale(MOBILE_ENVELOPE_TIME_SCALE);
+    }
 
     timeline
       .addLabel("copyOut")
