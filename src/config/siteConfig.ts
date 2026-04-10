@@ -118,11 +118,11 @@ export const siteConfig: WeddingConfig & {
       title: "Խնջույք",
       time: "17:30",
       venue: "«Պալաիս» ռեստորանային համալիր",
-      address: "Ք.Հրազդան,Չարենցի փողոց 3",
+      address: "Ք.Հրազդան,Կամոյի 3",
       mapLinks: {
-        google: "https://maps.app.goo.gl/GsqjKRCgSQDJpF876",
+        google: "https://www.google.com/maps?q=Palais+Wedding+Hall,+Kamoyi+3,+Hrazdan+2306&ftid=0x40403b2ae706295f:0x58cade7aece40560&entry=gps&lucs=,94259551,94275316,94224825,94227247,94227248,94231188,94280564,47071704,47069508,94218641,94282134,94203019,47084304&g_ep=CAISEjI1LjI5LjEuNzgyOTg1OTc1MBgAINeCAyp1LDk0MjU5NTUxLDk0Mjc1MzE2LDk0MjI0ODI1LDk0MjI3MjQ3LDk0MjI3MjQ4LDk0MjMxMTg4LDk0MjgwNTY0LDQ3MDcxNzA0LDQ3MDY5NTA4LDk0MjE4NjQxLDk0MjgyMTM0LDk0MjAzMDE5LDQ3MDg0MzA0QgJBTQ%3D%3D&skid=93a90e4b-9cdb-4aa2-b78a-a7d5f5087374&g_st=ipc",
         yandex:
-          "https://yandex.com/maps/org/palais_wedding_hall/202867135433/?ll=44.753757%2C40.500713&utm_source=share&z=18",
+          "https://yandex.com/maps/org/palais_wedding_hall/202867135433/?ll=44.753757%2C40.500713&z=18.25",
       },
       icon: "/assets/icons/ceremony-champagne.svg",
     },
