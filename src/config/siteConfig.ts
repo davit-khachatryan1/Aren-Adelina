@@ -110,6 +110,8 @@ export const siteConfig: WeddingConfig & {
       mapLinks: {
         google:
           "https://www.google.com/maps/place/Kecharis+Monastery/@40.5336195,44.7155304,100m/data=!3m1!1e3!4m14!1m7!3m6!1s0x404037290539f92b:0x3386c1118388b29d!2sKecharis+Monastery!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4!3m5!1s0x404037290539f92b:0x3386c1118388b29d!8m2!3d40.5338516!4d44.7159767!16zL20vMGdkbmt4?entry=ttu&g_ep=EgoyMDI2MDMwMi4wIKXMDSoASAFQAw%3D%3D",
+        yandex:
+          "https://yandex.com/maps/org/157915205874/?ll=44.716187%2C40.534003&z=17.68",
       },
       icon: "/assets/icons/party-ring.svg",
     },

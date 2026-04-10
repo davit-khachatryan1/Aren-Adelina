@@ -17,26 +17,43 @@ describe("ScheduleSection", () => {
     expect(screen.getByText("Կեչառիսի վանական համալիր")).toBeInTheDocument();
     expect(screen.getByText("Խաչատուր Կեչառեցի փողոց")).toBeInTheDocument();
     expect(screen.getByText("«Պալաիս» ռեստորանային համալիր")).toBeInTheDocument();
-    expect(screen.getByText("Ք.Հրազդան,Չարենցի փողոց 3")).toBeInTheDocument();
+    expect(screen.getByText("Ք.Հրազդան,Կամոյի 3")).toBeInTheDocument();
   });
 
-  it("renders a direct address link for the ceremony event", () => {
+  it("opens the Google/Yandex chooser for the ceremony venue", async () => {
+    const user = userEvent.setup();
     render(<ScheduleSection />);
 
+    const ceremony = siteConfig.events.find(event => event.id === "ceremony");
     const ceremonyCard = getEventCard("Կեչառիսի վանական համալիր");
-    const ceremonyLink = within(ceremonyCard).getByRole("link", { name: "Ուղղել հասցեն" });
-    const ceremonyMapUrl = siteConfig.events.find(event => event.id === "ceremony")?.mapLinks.google;
+    const chooserButton = within(ceremonyCard).getByRole("button", { name: "Տեսնել հասցեն" });
 
-    expect(ceremonyMapUrl).toBeDefined();
-    expect(ceremonyLink).toHaveAttribute("href", ceremonyMapUrl);
+    expect(chooserButton).toHaveAttribute("aria-expanded", "false");
+    expect(within(ceremonyCard).queryByRole("link", { name: "Google Maps" })).not.toBeInTheDocument();
+
+    await user.click(chooserButton);
+
+    expect(chooserButton).toHaveAttribute("aria-expanded", "true");
+    expect(within(ceremonyCard).getByRole("link", { name: "Google Maps" })).toHaveAttribute(
+      "href",
+      ceremony?.mapLinks.google
+    );
+    expect(within(ceremonyCard).getByRole("link", { name: "Yandex Maps" })).toHaveAttribute(
+      "href",
+      ceremony?.mapLinks.yandex
+    );
+
+    await user.keyboard("{Escape}");
+    expect(chooserButton).toHaveAttribute("aria-expanded", "false");
   });
 
   it("opens and closes a Google/Yandex chooser for the Palais venue", async () => {
     const user = userEvent.setup();
     render(<ScheduleSection />);
 
+    const party = siteConfig.events.find(event => event.id === "party");
     const partyCard = getEventCard("«Պալաիս» ռեստորանային համալիր");
-    const chooserButton = within(partyCard).getByRole("button", { name: "Ուղղել հասցեն" });
+    const chooserButton = within(partyCard).getByRole("button", { name: "Տեսնել հասցեն" });
 
     expect(chooserButton).toHaveAttribute("aria-expanded", "false");
     expect(within(partyCard).queryByRole("link", { name: "Google Maps" })).not.toBeInTheDocument();
@@ -48,10 +65,8 @@ describe("ScheduleSection", () => {
     const yandexLink = within(partyCard).getByRole("link", { name: "Yandex Maps" });
 
     expect(chooserButton).toHaveAttribute("aria-expanded", "true");
-    expect(yandexLink).toHaveAttribute(
-      "href",
-      "https://yandex.com/maps/org/palais_wedding_hall/202867135433/?ll=44.753757%2C40.500713&utm_source=share&z=18"
-    );
+    expect(googleLink).toHaveAttribute("href", party?.mapLinks.google);
+    expect(yandexLink).toHaveAttribute("href", party?.mapLinks.yandex);
 
     await user.click(chooserButton);
 
@@ -72,9 +87,5 @@ describe("ScheduleSection", () => {
 
     expect(within(partyCard).queryByRole("link", { name: "Google Maps" })).not.toBeInTheDocument();
     expect(within(partyCard).queryByRole("link", { name: "Yandex Maps" })).not.toBeInTheDocument();
-    expect(googleLink).toHaveAttribute(
-      "href",
-      siteConfig.events.find(event => event.id === "party")?.mapLinks.google
-    );
   });
 });

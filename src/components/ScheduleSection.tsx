@@ -65,7 +65,7 @@ export const ScheduleSection = () => {
                       setOpenMapChooserId(current => (current === event.id ? null : event.id));
                     }}
                   >
-                    Տեսնել   հասցեն
+                    Տեսնել հասցեն
                   </button>
                   {isChooserOpen ? (
                     <div className="map-chooser" id={chooserId}>
